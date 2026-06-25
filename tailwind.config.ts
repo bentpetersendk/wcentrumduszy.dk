@@ -14,6 +14,9 @@ const config: Config = {
         sage: "var(--color-accent-sage)",
         clay: "var(--color-accent-clay)",
         mist: "var(--color-accent-mist)",
+        warning: "var(--color-warning)",
+        error: "var(--color-error)",
+        success: "var(--color-success)",
         focus: "var(--color-focus)"
       },
       fontFamily: {
@@ -38,4 +41,3 @@ const config: Config = {
 };
 
 export default config;
-
