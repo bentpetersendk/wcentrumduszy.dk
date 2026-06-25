@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-background: #f7f4ef;
+  --color-surface: #fefcf8;
+  --color-surface-muted: #efe8dd;
+  --color-text: #252525;
+  --color-text-muted: #6f6a63;
+  --color-border: #e4ddd3;
+  --color-accent-sage: #a8b6a1;
+  --color-accent-clay: #b58b73;
+  --color-accent-mist: #d8e0df;
+  --color-error: #9d3f35;
+  --color-success: #55745d;
+  --color-focus: #4d6f72;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, rgba(216, 224, 223, 0.42), transparent 32rem),
+    var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-sans), sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(181, 139, 115, 0.28);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
