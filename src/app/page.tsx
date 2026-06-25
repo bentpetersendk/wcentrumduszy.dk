@@ -1,6 +1,34 @@
 import { ButtonLink } from "@/components/system/Button";
 import { EditorialImage } from "@/components/system/EditorialImage";
 import { Reveal } from "@/components/system/Reveal";
+import { SystemCard } from "@/components/system/Card";
+
+const offers = [
+  {
+    title: "Workshops",
+    text: "Small, reflective spaces for guided practice, conversation, and integration.",
+    href: "/workshops",
+    cta: "View workshops"
+  },
+  {
+    title: "Courses",
+    text: "Structured learning paths for returning to yourself with clarity and steadiness.",
+    href: "/courses",
+    cta: "Explore courses"
+  },
+  {
+    title: "Meditations",
+    text: "Quiet audio practices for moments when you need a gentle first step.",
+    href: "/meditations",
+    cta: "Listen"
+  },
+  {
+    title: "Articles",
+    text: "Thoughtful notes on presence, patterns, calm, and personal growth.",
+    href: "/articles",
+    cta: "Read"
+  }
+];
 
 export default function Home() {
   return (
@@ -53,6 +81,31 @@ export default function Home() {
             </a>
           </div>
         </Reveal>
+      </section>
+
+      <section className="mx-auto max-w-[1200px] px-5 py-20 sm:px-8 lg:py-28" aria-labelledby="offers-heading">
+        <Reveal>
+          <div className="mb-12 max-w-2xl">
+            <h2 id="offers-heading" className="text-h2 text-text">Ways to begin gently.</h2>
+            <p className="mt-5 text-body text-text-muted">
+              Different doorways for different moments. You can read, listen, join a group, or simply learn more.
+            </p>
+          </div>
+        </Reveal>
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          {offers.map((offer, index) => (
+            <Reveal key={offer.title} delay={index * 0.05}>
+              <SystemCard
+                title={offer.title}
+                meta="Pathway"
+                footer={<ButtonLink href={offer.href} variant="text">{offer.cta}</ButtonLink>}
+                className="h-full"
+              >
+                {offer.text}
+              </SystemCard>
+            </Reveal>
+          ))}
+        </div>
       </section>
     </div>
   );
