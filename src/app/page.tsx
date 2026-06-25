@@ -134,6 +134,51 @@ export default function Home() {
           </div>
         </Reveal>
       </section>
+
+      <section className="bg-mist/55 px-5 py-20 sm:px-8 lg:py-28" aria-labelledby="featured-workshop-heading">
+        <div className="mx-auto grid max-w-[1200px] items-center gap-12 lg:grid-cols-[1fr_0.86fr]">
+          <Reveal>
+            <div className="max-w-2xl">
+              <p className="text-caption uppercase text-text-muted">Featured workshop</p>
+              <h2 id="featured-workshop-heading" className="mt-3 text-h2 text-text">Returning To Yourself.</h2>
+              <p className="mt-6 text-body text-text-muted">
+                A small reflective workshop for noticing patterns, creating inner space, and taking one grounded
+                step toward change.
+              </p>
+              <dl className="mt-8 grid gap-4 text-small text-text-muted sm:grid-cols-2">
+                <div className="border-t border-border pt-4">
+                  <dt className="text-text">Format</dt>
+                  <dd className="mt-1">Guided reflection and conversation</dd>
+                </div>
+                <div className="border-t border-border pt-4">
+                  <dt className="text-text">Language</dt>
+                  <dd className="mt-1">Polish, with future multilingual support</dd>
+                </div>
+                <div className="border-t border-border pt-4">
+                  <dt className="text-text">Pace</dt>
+                  <dd className="mt-1">Small, calm, and practical</dd>
+                </div>
+                <div className="border-t border-border pt-4">
+                  <dt className="text-text">Status</dt>
+                  <dd className="mt-1">Booking details to be confirmed</dd>
+                </div>
+              </dl>
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <ButtonLink href="/workshops" variant="secondary">View details</ButtonLink>
+                <ButtonLink href="/contact" variant="text">Ask a question</ButtonLink>
+              </div>
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <EditorialImage
+              src="/photos/portraits/joanna-radek-13.png"
+              alt="Joanna Radek-Petersen preparing materials at a table."
+              aspect="landscape"
+              marker="Placeholder: clean original needed"
+            />
+          </Reveal>
+        </div>
+      </section>
     </div>
   );
 }
