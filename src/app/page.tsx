@@ -179,6 +179,39 @@ export default function Home() {
           </Reveal>
         </div>
       </section>
+
+      <section className="mx-auto grid max-w-[1200px] items-center gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[0.9fr_1fr] lg:py-28" aria-labelledby="meditation-heading">
+        <Reveal>
+          <EditorialImage
+            src="/photos/portraits/joanna-radek-16.png"
+            alt="Joanna Radek-Petersen seated calmly in a reflective pose."
+            marker="Placeholder: clean original needed"
+            className="mx-auto max-w-[30rem]"
+          />
+        </Reveal>
+        <Reveal delay={0.08}>
+          <div className="rounded-md border border-border bg-surface p-7 sm:p-9">
+            <p className="text-caption uppercase text-text-muted">A quiet first step</p>
+            <h2 id="meditation-heading" className="mt-3 text-h2 text-text">A five-minute pause.</h2>
+            <p className="mt-6 text-body text-text-muted">
+              A short guided practice for returning to the breath and meeting yourself without needing to solve
+              everything at once.
+            </p>
+            <div className="mt-8 rounded-md bg-background p-5">
+              <div className="h-1.5 overflow-hidden rounded-full bg-border" aria-hidden="true">
+                <div className="h-full w-1/3 rounded-full bg-clay" />
+              </div>
+              <div className="mt-3 flex justify-between text-caption text-text-muted">
+                <span>Preview</span>
+                <span>5 min</span>
+              </div>
+            </div>
+            <ButtonLink href="/meditations" variant="secondary" className="mt-8">
+              Listen now
+            </ButtonLink>
+          </div>
+        </Reveal>
+      </section>
     </div>
   );
 }
