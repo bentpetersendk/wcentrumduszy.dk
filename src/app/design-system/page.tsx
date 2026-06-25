@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { AnimationPlayground } from "@/components/system/AnimationPlayground";
 import { Button } from "@/components/system/Button";
 import { EmptyState, SkeletonCard, SystemCard } from "@/components/system/Card";
@@ -65,6 +66,12 @@ export default function DesignSystemPage() {
             Reusable primitives, tokens, accessibility notes, and component states for W Centrum Duszy.
             This route is intentionally blocked in production.
           </p>
+          <Link
+            href="/design-system/photography"
+            className="mt-8 inline-flex min-h-12 items-center rounded-md border border-border bg-surface px-5 text-small text-text transition-colors hover:border-text/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+          >
+            Open photography playground
+          </Link>
         </header>
 
         <div className="sticky top-[88px] z-20 mt-10 rounded-md border border-border bg-surface/95 p-4 backdrop-blur">
