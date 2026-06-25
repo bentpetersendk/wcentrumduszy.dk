@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { assetPath } from "@/lib/asset-path";
 
 type EditorialImageProps = {
   src: string;
@@ -27,7 +28,7 @@ export function EditorialImage({
   return (
     <figure className={`group relative overflow-hidden rounded-md bg-surface-muted ${aspectClassNames[aspect]} ${className}`}>
       <Image
-        src={src}
+        src={assetPath(src)}
         alt={alt}
         fill
         priority={priority}

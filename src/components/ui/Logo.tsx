@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { assetPath } from "@/lib/asset-path";
 
 type LogoProps = {
   priority?: boolean;
@@ -13,7 +14,7 @@ export function Logo({ priority = false }: LogoProps) {
       aria-label="W Centrum Duszy home"
     >
       <Image
-        src="/brand/logo-mark.png"
+        src={assetPath("/brand/logo-mark.png")}
         alt=""
         width={42}
         height={42}
