@@ -1,7 +1,8 @@
-import { ButtonLink } from "@/components/system/Button";
+import { Button, ButtonLink } from "@/components/system/Button";
 import { EditorialImage } from "@/components/system/EditorialImage";
 import { Reveal } from "@/components/system/Reveal";
 import { SystemCard } from "@/components/system/Card";
+import { TextInput } from "@/components/system/FormControls";
 
 const offers = [
   {
@@ -227,6 +228,35 @@ export default function Home() {
             <ButtonLink href="/testimonials" variant="text" className="mt-7">
               Read more stories
             </ButtonLink>
+          </div>
+        </Reveal>
+      </section>
+
+      <section className="mx-auto max-w-[960px] px-5 py-20 sm:px-8 lg:py-28" aria-labelledby="newsletter-heading">
+        <Reveal>
+          <div className="rounded-md border border-border bg-surface p-7 sm:p-10">
+            <div className="grid gap-8 lg:grid-cols-[0.9fr_1fr] lg:items-end">
+              <div>
+                <p className="text-caption uppercase text-text-muted">Newsletter</p>
+                <h2 id="newsletter-heading" className="mt-3 text-h2 text-text">Stay close without deciding today.</h2>
+                <p className="mt-5 text-body text-text-muted">
+                  Receive quiet notes, new articles, meditations, and workshop updates from W Centrum Duszy.
+                </p>
+              </div>
+              <form className="grid gap-4" aria-label="Newsletter signup">
+                <TextInput
+                  id="newsletter-email"
+                  label="Email address"
+                  type="email"
+                  autoComplete="email"
+                  helper="Your email will only be used for W Centrum Duszy updates."
+                  required
+                />
+                <Button type="submit" className="w-full sm:w-fit">
+                  Join the newsletter
+                </Button>
+              </form>
+            </div>
           </div>
         </Reveal>
       </section>
