@@ -1,4 +1,5 @@
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import Link from "next/link";
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 
 type ButtonVariant = "primary" | "secondary" | "ghost" | "text" | "icon";
 type ButtonSize = "sm" | "md" | "lg";
@@ -24,6 +25,25 @@ const sizeClassNames: Record<ButtonSize, string> = {
   lg: "min-h-14 px-7 text-base"
 };
 
+function getButtonClassName({
+  variant,
+  size,
+  isIconOnly,
+  className
+}: {
+  variant: ButtonVariant;
+  size: ButtonSize;
+  isIconOnly: boolean;
+  className?: string;
+}) {
+  return [
+    "inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors duration-200 ease-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus disabled:cursor-not-allowed disabled:opacity-45",
+    variantClassNames[variant],
+    isIconOnly ? "min-h-11 min-w-11 px-0" : sizeClassNames[size],
+    className ?? ""
+  ].join(" ");
+}
+
 export function Button({
   variant = "primary",
   size = "md",
@@ -39,10 +59,7 @@ export function Button({
   return (
     <button
       className={[
-        "inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors duration-200 ease-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus disabled:cursor-not-allowed disabled:opacity-45",
-        variantClassNames[variant],
-        isIconOnly ? "min-h-11 min-w-11 px-0" : sizeClassNames[size],
-        className
+        getButtonClassName({ variant, size, isIconOnly, className })
       ].join(" ")}
       disabled={disabled || isLoading}
       aria-busy={isLoading || undefined}
@@ -58,3 +75,30 @@ export function Button({
   );
 }
 
+export function ButtonLink({
+  href,
+  variant = "primary",
+  size = "md",
+  icon,
+  children,
+  className = "",
+  ...props
+}: AnchorHTMLAttributes<HTMLAnchorElement> & {
+  href: string;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  icon?: ReactNode;
+}) {
+  const isIconOnly = variant === "icon";
+
+  return (
+    <Link
+      href={href}
+      className={getButtonClassName({ variant, size, isIconOnly, className })}
+      {...props}
+    >
+      {icon}
+      {isIconOnly ? <span className="sr-only">{children}</span> : children}
+    </Link>
+  );
+}

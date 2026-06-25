@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ShowcaseSection } from "@/components/system/Section";
+import { assetPath } from "@/lib/asset-path";
 import { joannaPhotos } from "@/lib/design-system/photos";
 
 const previewFrames = [
@@ -46,7 +47,7 @@ export default function PhotographyPlaygroundPage() {
               <article key={photo.id} className="overflow-hidden rounded-md border border-border bg-surface">
                 <div className="relative aspect-[4/5] bg-surface-muted">
                   <Image
-                    src={photo.src}
+                    src={assetPath(photo.src)}
                     alt={`${photo.title}, Joanna Radek-Petersen`}
                     fill
                     sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
@@ -85,7 +86,7 @@ export default function PhotographyPlaygroundPage() {
                   {previewFrames.map((frame, index) => (
                     <div key={frame.name} className={frame.className}>
                       <div className="relative h-full overflow-hidden rounded-sm bg-surface-muted">
-                        <Image src={photo.src} alt="" fill sizes="33vw" className="object-cover" />
+                        <Image src={assetPath(photo.src)} alt="" fill sizes="33vw" className="object-cover" />
                         {index === 0 ? (
                           <>
                             <div className="absolute inset-4 border border-dashed border-surface/90" />
