@@ -212,6 +212,24 @@ export default function Home() {
           </div>
         </Reveal>
       </section>
+
+      <section className="px-5 py-20 sm:px-8 lg:py-28" aria-labelledby="testimonial-heading">
+        <Reveal>
+          <div className="mx-auto max-w-[900px] border-y border-border py-14 text-center">
+            <p className="text-caption uppercase text-text-muted">A note from the experience</p>
+            <h2 id="testimonial-heading" className="sr-only">Testimonials</h2>
+            <blockquote className="mt-5 font-display text-[2.15rem] leading-tight text-text sm:text-[2.75rem]">
+              &ldquo;A calm and thoughtful space where I could listen to myself more clearly.&rdquo;
+            </blockquote>
+            <p className="mt-6 text-small text-text-muted">
+              Placeholder testimonial. Display name and consent to be confirmed before production publishing.
+            </p>
+            <ButtonLink href="/testimonials" variant="text" className="mt-7">
+              Read more stories
+            </ButtonLink>
+          </div>
+        </Reveal>
+      </section>
     </div>
   );
 }
