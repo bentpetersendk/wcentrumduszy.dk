@@ -27,7 +27,7 @@ export const joannaPhotos: PhotoAsset[] = [
   ["18", "Workshop/course support image"]
 ].map(([id, recommendedUse]) => ({
   id,
-  src: `/photos/portraits/joanna-radek-${id}.png`,
+  src: `/photos/portraits/joanna-radek-${id}.webp`,
   title: `Portrait ${id}`,
   recommendedUse,
   status: "Watermarked placeholder. Replace with clean original before production."

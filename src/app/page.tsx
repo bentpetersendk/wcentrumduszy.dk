@@ -50,7 +50,7 @@ export default function Home() {
         <div className="relative mx-auto w-full max-w-[34rem] lg:ml-auto">
           <div className="absolute -left-6 top-10 hidden h-40 w-24 rounded-md bg-mist/70 lg:block" />
           <EditorialImage
-            src="/photos/portraits/joanna-radek-01.png"
+            src="/photos/portraits/joanna-radek-01.webp"
             alt="Joanna Radek-Petersen seated in a bright calm room, holding a cup."
             priority
             marker="Placeholder: clean original needed"
@@ -105,7 +105,7 @@ export default function Home() {
       <section className="mx-auto grid max-w-[1200px] items-center gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[0.82fr_1fr] lg:py-28" aria-labelledby="about-heading">
         <Reveal>
           <EditorialImage
-            src="/photos/portraits/joanna-radek-11.png"
+            src="/photos/portraits/joanna-radek-11.webp"
             alt="Joanna Radek-Petersen smiling softly in natural light."
             marker="Placeholder: clean original needed"
             className="mx-auto max-w-[30rem]"
@@ -165,7 +165,7 @@ export default function Home() {
           </Reveal>
           <Reveal delay={0.1}>
             <EditorialImage
-              src="/photos/portraits/joanna-radek-13.png"
+              src="/photos/portraits/joanna-radek-13.webp"
               alt="Joanna Radek-Petersen preparing materials at a table."
               aspect="landscape"
               marker="Placeholder: clean original needed"
@@ -177,7 +177,7 @@ export default function Home() {
       <section className="mx-auto grid max-w-[1200px] items-center gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[0.9fr_1fr] lg:py-28" aria-labelledby="meditation-heading">
         <Reveal>
           <EditorialImage
-            src="/photos/portraits/joanna-radek-16.png"
+            src="/photos/portraits/joanna-radek-16.webp"
             alt="Joanna Radek-Petersen seated calmly in a reflective pose."
             marker="Placeholder: clean original needed"
             className="mx-auto max-w-[30rem]"
@@ -270,7 +270,7 @@ export default function Home() {
         </Reveal>
         <Reveal delay={0.08}>
           <EditorialImage
-            src="/photos/portraits/joanna-radek-17.png"
+            src="/photos/portraits/joanna-radek-17.webp"
             alt="Joanna Radek-Petersen smiling warmly."
             marker="Placeholder: clean original needed"
             className="mx-auto max-w-[28rem]"
