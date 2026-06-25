@@ -33,6 +33,27 @@ export default function Home() {
           </div>
         </Reveal>
       </section>
+
+      <section className="px-5 py-20 sm:px-8 lg:py-28" aria-labelledby="trust-heading">
+        <Reveal>
+          <div className="mx-auto max-w-[760px] text-center">
+            <div className="mx-auto mb-8 h-px w-24 bg-border" />
+            <h2 id="trust-heading" className="text-h2 text-text">
+              You do not need to become someone else.
+            </h2>
+            <p className="mt-6 text-body-large text-text-muted">
+              This is a grounded space to pause, listen, and explore patterns that may still influence
+              your life, relationships, and choices.
+            </p>
+            <a
+              href="/about"
+              className="mt-8 inline-flex rounded-sm text-small text-text underline underline-offset-4 transition-colors hover:text-clay focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
+            >
+              How Joanna works
+            </a>
+          </div>
+        </Reveal>
+      </section>
     </div>
   );
 }
