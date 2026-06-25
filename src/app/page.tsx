@@ -59,7 +59,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-5 py-20 sm:px-8 lg:py-28" aria-labelledby="trust-heading">
+      <section className="px-5 py-16 sm:px-8 lg:py-24" aria-labelledby="trust-heading">
         <Reveal>
           <div className="mx-auto max-w-[760px] text-center">
             <div className="mx-auto mb-8 h-px w-24 bg-border" />
@@ -77,9 +77,9 @@ export default function Home() {
         </Reveal>
       </section>
 
-      <section className="mx-auto max-w-[1200px] px-5 py-20 sm:px-8 lg:py-28" aria-labelledby="offers-heading">
+      <section className="mx-auto max-w-[1200px] px-5 py-16 sm:px-8 lg:py-24" aria-labelledby="offers-heading">
         <Reveal>
-          <div className="mb-12 max-w-2xl">
+          <div className="mb-10 max-w-2xl">
             <h2 id="offers-heading" className="text-h2 text-text">Ways to begin gently.</h2>
             <p className="mt-5 text-body text-text-muted">
               Different doorways for different moments. You can read, listen, join a group, or simply learn more.
@@ -102,7 +102,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-[1200px] items-center gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[0.82fr_1fr] lg:py-28" aria-labelledby="about-heading">
+      <section className="mx-auto grid max-w-[1200px] items-center gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[0.82fr_1fr] lg:py-24" aria-labelledby="about-heading">
         <Reveal>
           <EditorialImage
             src="/photos/portraits/joanna-radek-11.webp"
@@ -129,8 +129,8 @@ export default function Home() {
         </Reveal>
       </section>
 
-      <section className="bg-mist/55 px-5 py-20 sm:px-8 lg:py-28" aria-labelledby="featured-workshop-heading">
-        <div className="mx-auto grid max-w-[1200px] items-center gap-12 lg:grid-cols-[1fr_0.86fr]">
+      <section className="bg-mist/55 px-5 py-16 sm:px-8 lg:py-24" aria-labelledby="featured-workshop-heading">
+        <div className="mx-auto grid max-w-[1200px] items-center gap-10 lg:grid-cols-[1fr_0.86fr]">
           <Reveal>
             <div className="max-w-2xl">
               <p className="text-caption uppercase text-text-muted">Featured workshop</p>
@@ -174,7 +174,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-[1200px] items-center gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[0.9fr_1fr] lg:py-28" aria-labelledby="meditation-heading">
+      <section className="mx-auto grid max-w-[1200px] items-center gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[0.9fr_1fr] lg:py-24" aria-labelledby="meditation-heading">
         <Reveal>
           <EditorialImage
             src="/photos/portraits/joanna-radek-16.webp"
@@ -207,7 +207,7 @@ export default function Home() {
         </Reveal>
       </section>
 
-      <section className="px-5 py-20 sm:px-8 lg:py-28" aria-labelledby="testimonial-heading">
+      <section className="px-5 py-16 sm:px-8 lg:py-24" aria-labelledby="testimonial-heading">
         <Reveal>
           <div className="mx-auto max-w-[900px] border-y border-border py-14 text-center">
             <p className="text-caption uppercase text-text-muted">A note from the experience</p>
@@ -225,7 +225,7 @@ export default function Home() {
         </Reveal>
       </section>
 
-      <section className="mx-auto max-w-[960px] px-5 py-20 sm:px-8 lg:py-28" aria-labelledby="newsletter-heading">
+      <section className="mx-auto max-w-[960px] px-5 py-16 sm:px-8 lg:py-24" aria-labelledby="newsletter-heading">
         <Reveal>
           <div className="rounded-md border border-border bg-surface p-7 sm:p-10">
             <div className="grid gap-8 lg:grid-cols-[0.9fr_1fr] lg:items-end">
@@ -254,7 +254,7 @@ export default function Home() {
         </Reveal>
       </section>
 
-      <section className="mx-auto grid max-w-[1200px] items-center gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[1fr_0.78fr] lg:py-28" aria-labelledby="contact-heading">
+      <section className="mx-auto grid max-w-[1200px] items-center gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[1fr_0.78fr] lg:py-24" aria-labelledby="contact-heading">
         <Reveal>
           <div className="max-w-2xl">
             <p className="text-caption uppercase text-text-muted">Contact</p>
