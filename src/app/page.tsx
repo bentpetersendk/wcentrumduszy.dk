@@ -74,12 +74,9 @@ export default function Home() {
               This is a grounded space to pause, listen, and explore patterns that may still influence
               your life, relationships, and choices.
             </p>
-            <a
-              href="/about"
-              className="mt-8 inline-flex rounded-sm text-small text-text underline underline-offset-4 transition-colors hover:text-clay focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
-            >
+            <ButtonLink href="/about" variant="text" className="mt-8">
               How Joanna works
-            </a>
+            </ButtonLink>
           </div>
         </Reveal>
       </section>
