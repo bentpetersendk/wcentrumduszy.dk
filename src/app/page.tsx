@@ -260,6 +260,30 @@ export default function Home() {
           </div>
         </Reveal>
       </section>
+
+      <section className="mx-auto grid max-w-[1200px] items-center gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[1fr_0.78fr] lg:py-28" aria-labelledby="contact-heading">
+        <Reveal>
+          <div className="max-w-2xl">
+            <p className="text-caption uppercase text-text-muted">Contact</p>
+            <h2 id="contact-heading" className="mt-3 text-h2 text-text">You are welcome to write with a quiet first hello.</h2>
+            <p className="mt-6 text-body text-text-muted">
+              Ask a question, share a workshop inquiry, or take one small step toward understanding what kind of
+              support feels right.
+            </p>
+            <ButtonLink href="/contact" className="mt-9">
+              Contact Joanna
+            </ButtonLink>
+          </div>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <EditorialImage
+            src="/photos/portraits/joanna-radek-17.png"
+            alt="Joanna Radek-Petersen smiling warmly."
+            marker="Placeholder: clean original needed"
+            className="mx-auto max-w-[28rem]"
+          />
+        </Reveal>
+      </section>
     </div>
   );
 }
