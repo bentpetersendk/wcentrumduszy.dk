@@ -18,6 +18,7 @@ export function Footer() {
             <Link
               key={item.href}
               href={item.href}
+              prefetch={false}
               className="rounded-sm text-sm text-text-muted transition-colors duration-200 hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
             >
               {item.label}
@@ -45,6 +46,7 @@ export function Footer() {
               <Link
                 key={item.href}
                 href={item.href}
+                prefetch={false}
                 className="rounded-sm text-sm text-text-muted transition-colors duration-200 hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
               >
                 {item.label}

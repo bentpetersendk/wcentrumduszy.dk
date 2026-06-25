@@ -94,6 +94,7 @@ export function ButtonLink({
   return (
     <Link
       href={href}
+      prefetch={false}
       className={getButtonClassName({ variant, size, isIconOnly, className })}
       {...props}
     >

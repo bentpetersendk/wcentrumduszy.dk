@@ -105,6 +105,7 @@ export function MobileNavigation({ items }: MobileNavigationProps) {
                   <Link
                     key={item.href}
                     href={item.href}
+                    prefetch={false}
                     className="rounded-md px-1 py-4 text-xl text-text transition-colors duration-200 hover:text-clay focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
                     onClick={() => setIsOpen(false)}
                   >

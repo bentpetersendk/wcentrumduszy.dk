@@ -20,6 +20,7 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
+              prefetch={false}
               className="rounded-sm text-sm text-text-muted transition-colors duration-200 hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
             >
               {item.label}
@@ -42,6 +43,7 @@ export function Header() {
           </div>
           <Link
             href="/contact"
+            prefetch={false}
             className="inline-flex min-h-12 items-center rounded-md bg-text px-5 text-sm text-surface transition-colors duration-200 hover:bg-clay focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus"
           >
             Contact Joanna
