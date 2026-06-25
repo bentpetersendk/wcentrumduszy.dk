@@ -107,6 +107,33 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      <section className="mx-auto grid max-w-[1200px] items-center gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[0.82fr_1fr] lg:py-28" aria-labelledby="about-heading">
+        <Reveal>
+          <EditorialImage
+            src="/photos/portraits/joanna-radek-11.png"
+            alt="Joanna Radek-Petersen smiling softly in natural light."
+            marker="Placeholder: clean original needed"
+            className="mx-auto max-w-[30rem]"
+          />
+        </Reveal>
+        <Reveal delay={0.08}>
+          <div className="max-w-2xl">
+            <p className="text-caption uppercase text-text-muted">About Joanna</p>
+            <h2 id="about-heading" className="mt-3 text-h2 text-text">A real person holding a calm space.</h2>
+            <p className="mt-6 text-body text-text-muted">
+              Joanna created W Centrum Duszy to offer a space that is warm but not invasive, deep but not
+              overwhelming, personal but still professional.
+            </p>
+            <p className="mt-5 text-body text-text-muted">
+              Her work invites people to pause, listen, and approach their inner life with courage and tenderness.
+            </p>
+            <ButtonLink href="/about" variant="secondary" className="mt-8">
+              Read about Joanna
+            </ButtonLink>
+          </div>
+        </Reveal>
+      </section>
     </div>
   );
 }
