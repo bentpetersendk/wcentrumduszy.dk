@@ -34,7 +34,7 @@ const offers = [
 export default function Home() {
   return (
     <div>
-      <section className="mx-auto grid min-h-[calc(100svh-72px)] max-w-[1200px] items-center gap-12 px-5 py-16 sm:px-8 lg:min-h-[calc(100svh-88px)] lg:grid-cols-[1fr_0.82fr] lg:py-24">
+      <section className="mx-auto grid min-h-[calc(100svh-72px)] max-w-[1200px] items-center gap-10 px-5 py-16 sm:px-8 lg:min-h-[calc(100svh-88px)] lg:grid-cols-[1fr_0.95fr] lg:gap-8 lg:py-24">
         <div className="max-w-2xl">
           <h1 className="text-display text-text">Return to the quiet center within you.</h1>
           <p className="mt-7 max-w-xl text-body-large text-text-muted">
@@ -47,7 +47,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-[34rem] lg:ml-auto">
+        <div className="relative mx-auto w-full max-w-[39rem] lg:ml-auto">
           <div className="absolute -left-6 top-10 hidden h-40 w-24 rounded-md bg-mist/70 lg:block" />
           <EditorialImage
             src="/photos/portraits/joanna-radek-01.webp"
