@@ -1,19 +1,18 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
 import { PageHero } from "@/components/public/PageHero";
 import { RichTextRenderer } from "@/components/public/RichTextRenderer";
-import { getPage, siteUrl } from "@/lib/content";
-
-const content = getPage("newsletter");
+import { getContentBySlug } from "@/lib/cms/queries";
+import { siteUrl } from "@/lib/cms/mapper";
 
 export const metadata: Metadata = {
-  title: content?.seo.title,
-  description: content?.seo.description,
   alternates: { canonical: `${siteUrl}/newsletter` }
 };
 
-export default function NewsletterPage() {
-  if (!content) return null;
+export default async function NewsletterPage() {
+  const content = await getContentBySlug({ slug: "newsletter", type: "page", status: "published" });
+  if (!content) notFound();
 
   return (
     <div>

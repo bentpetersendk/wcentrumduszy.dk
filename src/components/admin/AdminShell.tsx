@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { signOutAction } from "@/lib/cms/actions";
 
 const adminNavigation = [
   { label: "Dashboard", href: "/admin" },
@@ -31,6 +32,14 @@ export function AdminShell({ title, description, children }: { title: string; de
             </Link>
           ))}
         </nav>
+        <form action={signOutAction} className="mt-4 border-t border-border pt-4">
+          <button
+            type="submit"
+            className="min-h-11 w-full rounded-md px-3 text-left text-sm text-text-muted transition-colors hover:bg-surface-muted hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+          >
+            Logout
+          </button>
+        </form>
       </aside>
       <div>
         <div className="mb-8">

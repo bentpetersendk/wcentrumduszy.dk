@@ -1,5 +1,5 @@
 import { EditorialImage } from "@/components/system/EditorialImage";
-import type { RichTextBlock } from "@/lib/content";
+import type { RichTextBlock } from "@/lib/cms/types";
 
 export function RichTextRenderer({ blocks }: { blocks: RichTextBlock[] }) {
   return (

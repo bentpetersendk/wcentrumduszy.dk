@@ -1,21 +1,24 @@
 import { PageHero } from "@/components/public/PageHero";
 import { RichTextRenderer } from "@/components/public/RichTextRenderer";
 import { ButtonLink } from "@/components/system/Button";
-import type { OfferContent } from "@/lib/content";
+import type { CmsContent } from "@/lib/cms/types";
 
-export function DetailPage({ content }: { content: OfferContent }) {
+export function DetailPage({ content }: { content: CmsContent }) {
   const facts = [
-    ["Format", content.format],
-    ["Theme", content.theme],
-    ["Date", content.date],
-    ["Time", content.time],
-    ["Location", content.location],
-    ["Language", content.languageLabel],
-    ["Capacity", content.capacity],
-    ["Price", content.price],
-    ["Duration", content.duration],
-    ["Access", content.accessLevel]
-  ].filter(([, value]) => Boolean(value));
+    ["Format", content.metadata.format],
+    ["Theme", content.metadata.theme],
+    ["Date", content.metadata.date],
+    ["Time", content.metadata.time],
+    ["Location", content.metadata.location],
+    ["Language", content.metadata.languageLabel],
+    ["Capacity", content.metadata.capacity],
+    ["Price", content.metadata.price],
+    ["Duration", content.metadata.duration],
+    ["Access", content.metadata.accessLevel]
+  ].filter(([, value]) => typeof value === "string" && value.length > 0) as [string, string][];
+  const faq = Array.isArray(content.metadata.faq)
+    ? content.metadata.faq.filter((item): item is { question: string; answer: string } => typeof item === "object" && "question" in item && "answer" in item)
+    : [];
 
   return (
     <div>
@@ -23,11 +26,11 @@ export function DetailPage({ content }: { content: OfferContent }) {
       <section className="mx-auto grid max-w-[1100px] gap-10 px-5 pb-16 sm:px-8 lg:grid-cols-[1fr_18rem] lg:pb-24">
         <article className="max-w-3xl">
           <RichTextRenderer blocks={content.body} />
-          {content.faq?.length ? (
+          {faq.length ? (
             <div className="mt-12">
               <h2 className="text-h2 text-text">Questions</h2>
               <div className="mt-6 divide-y divide-border rounded-md border border-border bg-surface">
-                {content.faq.map((item) => (
+                {faq.map((item) => (
                   <div key={item.question} className="p-5">
                     <h3 className="font-medium text-text">{item.question}</h3>
                     <p className="mt-2 text-small text-text-muted">{item.answer}</p>
@@ -47,11 +50,9 @@ export function DetailPage({ content }: { content: OfferContent }) {
               </div>
             ))}
           </dl>
-          {content.cta ? (
-            <ButtonLink href={content.cta.href} className="mt-6 w-full">
-              {content.cta.label}
-            </ButtonLink>
-          ) : null}
+          <ButtonLink href="/contact" className="mt-6 w-full">
+            Ask Joanna
+          </ButtonLink>
         </aside>
       </section>
     </div>

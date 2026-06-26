@@ -1,4 +1,4 @@
-import type { ContentStatus } from "@/lib/content";
+import type { ContentStatus } from "@/lib/cms/types";
 
 const statusLabels: Record<ContentStatus, string> = {
   draft: "Draft",

@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { EditorialImage } from "@/components/system/EditorialImage";
-import { galleryCollections } from "@/lib/content";
+import { getMediaAssets } from "@/lib/cms/queries";
 
 export const metadata: Metadata = {
   title: "Gallery",
   description: "Portraits and visual moments from W Centrum Duszy."
 };
 
-export default function GalleryPage() {
-  const images = galleryCollections.flatMap((collection) => collection.images);
+export default async function GalleryPage() {
+  const images = await getMediaAssets();
 
   return (
     <div>
@@ -20,8 +20,8 @@ export default function GalleryPage() {
       </section>
       <section className="mx-auto grid max-w-[1100px] gap-5 px-5 pb-16 sm:grid-cols-2 sm:px-8 lg:grid-cols-4 lg:pb-24">
         {images.map((image) => (
-          <figure key={image.src} className="rounded-md border border-border bg-surface p-3">
-            <EditorialImage src={image.src} alt={image.alt} className="aspect-[4/5]" />
+          <figure key={image.id} className="rounded-md border border-border bg-surface p-3">
+            <EditorialImage src={image.publicUrl ?? `/${image.path}`} alt={image.alt} className="aspect-[4/5]" />
             <figcaption className="mt-3 px-1 pb-1 text-small text-text-muted">{image.caption}</figcaption>
           </figure>
         ))}

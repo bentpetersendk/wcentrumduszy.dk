@@ -1,78 +1,63 @@
-import { Button, ButtonLink } from "@/components/system/Button";
+import { ButtonLink } from "@/components/system/Button";
 import { EditorialImage } from "@/components/system/EditorialImage";
-import { Icon } from "@/components/system/icons/Icon";
 import { Reveal } from "@/components/system/Reveal";
 import { SystemCard } from "@/components/system/Card";
-import { TextInput } from "@/components/system/FormControls";
+import { NewsletterForm } from "@/components/forms/NewsletterForm";
+import { getContentBySlug, getPublishedList } from "@/lib/cms/queries";
 
-const offers = [
-  {
-    title: "Workshops",
-    text: "Small, reflective spaces for guided practice, conversation, and integration.",
-    href: "/workshops",
-    cta: "View workshops"
-  },
-  {
-    title: "Courses",
-    text: "Structured learning paths for returning to yourself with clarity and steadiness.",
-    href: "/courses",
-    cta: "Explore courses"
-  },
-  {
-    title: "Meditations",
-    text: "Quiet audio practices for moments when you need a gentle first step.",
-    href: "/meditations",
-    cta: "Listen"
-  },
-  {
-    title: "Articles",
-    text: "Thoughtful notes on presence, patterns, calm, and personal growth.",
-    href: "/articles",
-    cta: "Read"
+export default async function Home() {
+  const [home, workshops, meditations, articles] = await Promise.all([
+    getContentBySlug({ slug: "", type: "page", status: "published" }),
+    getPublishedList("workshop"),
+    getPublishedList("meditation"),
+    getPublishedList("article")
+  ]);
+
+  if (!home) {
+    return (
+      <section className="mx-auto max-w-[760px] px-5 py-20 text-center sm:px-8">
+        <h1 className="text-h1 text-text">W Centrum Duszy</h1>
+        <p className="mt-5 text-body-large text-text-muted">
+          Connect Supabase and run the CMS seed migration to publish the homepage.
+        </p>
+      </section>
+    );
   }
-];
 
-export default function Home() {
+  const pathways = [
+    ...workshops.map((item) => ({ ...item, href: `/workshops/${item.slug}`, label: "Workshop" })),
+    ...meditations.map((item) => ({ ...item, href: `/meditations/${item.slug}`, label: "Meditation" })),
+    ...articles.map((item) => ({ ...item, href: `/articles/${item.slug}`, label: "Article" }))
+  ].slice(0, 4);
+
   return (
     <div>
       <section className="mx-auto grid max-w-[1200px] items-center gap-8 px-5 pb-12 pt-10 sm:px-8 sm:py-16 lg:min-h-[calc(100svh-88px)] lg:grid-cols-[1fr_0.95fr] lg:gap-8 lg:py-24">
         <div className="max-w-2xl">
-          <h1 className="text-display text-text">Return to the quiet center within you.</h1>
-          <p className="mt-5 max-w-xl text-body-large text-text-muted sm:mt-7">
-            W Centrum Duszy is Joanna Radek-Petersen&apos;s space for reflection, guided practice,
-            workshops, and personal growth.
-          </p>
+          <h1 className="text-display text-text">{home.subtitle || home.title}</h1>
+          <p className="mt-5 max-w-xl text-body-large text-text-muted sm:mt-7">{home.excerpt}</p>
           <div className="mt-7 flex flex-col gap-3 sm:mt-10 sm:flex-row">
             <ButtonLink href="/workshops" className="w-full sm:w-auto">Explore workshops</ButtonLink>
             <ButtonLink href="/about" variant="secondary" className="w-full sm:w-auto">Read about Joanna</ButtonLink>
           </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-[13rem] sm:max-w-[32rem] lg:ml-auto lg:max-w-[39rem]">
-          <div className="absolute -left-6 top-10 hidden h-40 w-24 rounded-md bg-mist/70 lg:block" />
-          <EditorialImage
-            src="/photos/portraits/joanna-radek-01.webp"
-            alt="Joanna Radek-Petersen seated in a bright calm room, holding a cup."
-            priority
-            className="relative shadow-soft"
-          />
-        </div>
+        {home.heroImage ? (
+          <div className="relative mx-auto w-full max-w-[13rem] sm:max-w-[32rem] lg:ml-auto lg:max-w-[39rem]">
+            <EditorialImage src={home.heroImage} alt={home.imageAlt ?? ""} priority className="relative shadow-soft" />
+          </div>
+        ) : null}
       </section>
 
       <section className="px-5 py-12 sm:px-8 sm:py-16 lg:py-24" aria-labelledby="trust-heading">
         <Reveal>
           <div className="mx-auto max-w-[760px] text-center">
             <div className="mx-auto mb-8 h-px w-24 bg-border" />
-            <h2 id="trust-heading" className="text-h2 text-text">
-              You do not need to become someone else.
-            </h2>
+            <h2 id="trust-heading" className="text-h2 text-text">You do not need to become someone else.</h2>
             <p className="mt-6 text-body-large text-text-muted">
-              This is a grounded space to pause, listen, and explore patterns that may still influence
-              your life, relationships, and choices.
+              This is a grounded space to pause, listen, and explore patterns that may still influence your life, relationships, and choices.
             </p>
-            <ButtonLink href="/about" variant="text" className="mt-8">
-              How Joanna works
-            </ButtonLink>
+            <ButtonLink href="/about" variant="text" className="mt-8">How Joanna works</ButtonLink>
           </div>
         </Reveal>
       </section>
@@ -82,225 +67,63 @@ export default function Home() {
           <div className="mb-10 max-w-2xl">
             <h2 id="offers-heading" className="text-h2 text-text">Ways to begin gently.</h2>
             <p className="mt-5 text-body text-text-muted">
-              Different doorways for different moments. You can read, listen, join a group, or simply learn more.
+              The newest published workshops, meditations, and articles from the CMS.
             </p>
           </div>
         </Reveal>
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {offers.map((offer, index) => (
-            <Reveal key={offer.title} delay={index * 0.05}>
+          {pathways.map((item, index) => (
+            <Reveal key={item.id} delay={index * 0.05}>
               <SystemCard
-                title={offer.title}
-                meta="Pathway"
-                footer={<ButtonLink href={offer.href} variant="text">{offer.cta}</ButtonLink>}
+                title={item.title}
+                meta={item.label}
+                footer={<ButtonLink href={item.href} variant="text">Open</ButtonLink>}
                 className="h-full"
               >
-                {offer.text}
+                {item.excerpt}
               </SystemCard>
             </Reveal>
           ))}
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-[1200px] items-start gap-8 px-5 py-12 sm:gap-10 sm:px-8 sm:py-16 lg:grid-cols-[0.82fr_1fr] lg:py-24" aria-labelledby="about-heading">
-        <Reveal>
-          <EditorialImage
-            src="/photos/portraits/joanna-radek-11.webp"
-            alt="Joanna Radek-Petersen smiling softly in natural light."
-            className="mx-auto max-w-[20rem] sm:max-w-[30rem]"
-          />
-        </Reveal>
-        <Reveal delay={0.08}>
-          <div className="max-w-2xl lg:pt-6">
-            <p className="text-caption uppercase text-text-muted">About Joanna</p>
-            <h2 id="about-heading" className="mt-3 text-h2 text-text">A real person holding a calm space.</h2>
-            <p className="mt-6 text-body text-text-muted">
-              Joanna created W Centrum Duszy to offer a space that is warm but not invasive, deep but not
-              overwhelming, personal but still professional.
-            </p>
-            <p className="mt-5 text-body text-text-muted">
-              Her work invites people to pause, listen, and approach their inner life with courage and tenderness.
-            </p>
-            <ButtonLink href="/about" variant="secondary" className="mt-8">
-              Read about Joanna
-            </ButtonLink>
-          </div>
-        </Reveal>
-      </section>
-
-      <section className="px-5 py-16 sm:px-8 sm:py-20 lg:py-32" aria-label="A quiet pause">
-        <Reveal>
-          <div className="mx-auto max-w-[640px] text-center">
-            <p className="font-display text-[1.45rem] italic leading-snug text-text sm:text-[1.9rem]">
-              Sometimes the most important step is simply allowing yourself to pause.
-            </p>
-          </div>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <div className="mx-auto mt-8 max-w-[58rem] sm:mt-12">
-            <EditorialImage
-              src="/photos/portraits/joanna-radek-04.webp"
-              alt="Joanna Radek-Petersen looking out over a quiet green view."
-              aspect="wide"
-            />
-          </div>
-        </Reveal>
-      </section>
-
-      <section className="bg-mist/55 px-5 py-12 sm:px-8 sm:py-16 lg:py-24" aria-labelledby="featured-workshop-heading">
-        <div className="mx-auto grid max-w-[1200px] items-center gap-8 sm:gap-10 lg:grid-cols-[1.08fr_1fr]">
-          <Reveal delay={0.1}>
-            <EditorialImage
-              src="/photos/portraits/joanna-radek-13.webp"
-              alt="Joanna Radek-Petersen preparing materials at a table."
-              aspect="wide"
-            />
-          </Reveal>
-          <Reveal>
-            <div className="max-w-2xl">
-              <p className="text-caption uppercase text-text-muted">Featured workshop</p>
-              <h2 id="featured-workshop-heading" className="mt-3 text-h2 text-text">Returning To Yourself.</h2>
-              <p className="mt-6 text-body text-text-muted">
-                A small reflective workshop for noticing patterns, creating inner space, and taking one grounded
-                step toward change.
-              </p>
-              <dl className="mt-8 grid gap-4 text-small text-text-muted sm:grid-cols-2">
-                <div className="border-t border-border pt-4">
-                  <dt className="text-text">Format</dt>
-                  <dd className="mt-1">Guided reflection and conversation</dd>
-                </div>
-                <div className="border-t border-border pt-4">
-                  <dt className="text-text">Language</dt>
-                  <dd className="mt-1">Polish, with future multilingual support</dd>
-                </div>
-                <div className="border-t border-border pt-4">
-                  <dt className="text-text">Pace</dt>
-                  <dd className="mt-1">Small, calm, and practical</dd>
-                </div>
-                <div className="border-t border-border pt-4">
-                  <dt className="text-text">Status</dt>
-                  <dd className="mt-1">Booking details to be confirmed</dd>
-                </div>
-              </dl>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <ButtonLink href="/workshops" variant="secondary" className="w-full sm:w-auto">View details</ButtonLink>
-                <ButtonLink href="/contact" variant="text" className="w-full sm:w-auto">Ask a question</ButtonLink>
+      {workshops[0] ? (
+        <section className="bg-mist/55 px-5 py-12 sm:px-8 sm:py-16 lg:py-24" aria-labelledby="featured-workshop-heading">
+          <div className="mx-auto grid max-w-[1200px] items-center gap-8 sm:gap-10 lg:grid-cols-[1.08fr_1fr]">
+            {workshops[0].heroImage ? (
+              <Reveal delay={0.1}>
+                <EditorialImage src={workshops[0].heroImage} alt={workshops[0].imageAlt ?? ""} aspect="wide" />
+              </Reveal>
+            ) : null}
+            <Reveal>
+              <div className="max-w-2xl">
+                <p className="text-caption uppercase text-text-muted">Featured workshop</p>
+                <h2 id="featured-workshop-heading" className="mt-3 text-h2 text-text">{workshops[0].title}</h2>
+                <p className="mt-6 text-body text-text-muted">{workshops[0].excerpt}</p>
+                <ButtonLink href={`/workshops/${workshops[0].slug}`} variant="secondary" className="mt-8 w-full sm:w-auto">
+                  View details
+                </ButtonLink>
               </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="mx-auto grid max-w-[1200px] items-start gap-8 px-5 py-12 sm:gap-10 sm:px-8 sm:py-16 lg:grid-cols-[0.9fr_1fr] lg:py-24" aria-labelledby="meditation-heading">
-        <Reveal>
-          <EditorialImage
-            src="/photos/portraits/joanna-radek-16.webp"
-            alt="Joanna Radek-Petersen seated calmly in a reflective pose."
-            className="mx-auto max-w-[20rem] sm:max-w-[30rem]"
-          />
-        </Reveal>
-        <Reveal delay={0.08}>
-          <div className="rounded-md border border-border bg-surface p-7 sm:p-9 lg:mt-6">
-            <p className="text-caption uppercase text-text-muted">A quiet first step</p>
-            <h2 id="meditation-heading" className="mt-3 text-h2 text-text">A five-minute pause.</h2>
-            <p className="mt-6 text-body text-text-muted">
-              A short guided practice for returning to the breath and meeting yourself without needing to solve
-              everything at once.
-            </p>
-            <div className="mt-8 flex items-center gap-4">
-              <span
-                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-border text-text"
-                aria-hidden="true"
-              >
-                <Icon name="play" size={16} fill="currentColor" stroke="none" />
-              </span>
-              <div className="flex-1">
-                <div className="h-1 overflow-hidden rounded-full bg-border" aria-hidden="true">
-                  <div className="h-full w-1/3 rounded-full bg-clay" />
-                </div>
-                <p className="mt-2 text-caption text-text-muted">Preview &middot; 5 min</p>
-              </div>
-            </div>
-            <ButtonLink href="/meditations" variant="secondary" className="mt-8">
-              Listen now
-            </ButtonLink>
+            </Reveal>
           </div>
-        </Reveal>
-      </section>
-
-      <section className="px-5 py-12 sm:px-8 sm:py-16 lg:py-24" aria-labelledby="testimonial-heading">
-        <Reveal>
-          <div className="mx-auto max-w-[820px] text-center">
-            <p className="text-caption uppercase text-text-muted">A note from the experience</p>
-            <h2 id="testimonial-heading" className="sr-only">Testimonials</h2>
-            <p aria-hidden="true" className="mt-3 font-display text-[4.5rem] leading-none text-mist">
-              &ldquo;
-            </p>
-            <blockquote className="mt-1 font-display text-[1.85rem] leading-[1.18] text-text sm:text-[2.75rem]">
-              A calm and thoughtful space where I could listen to myself more clearly.
-            </blockquote>
-            <p className="mt-7 text-small text-text-muted">
-              Placeholder testimonial. Display name and consent to be confirmed before production publishing.
-            </p>
-            <ButtonLink href="/testimonials" variant="text" className="mt-6">
-              Read more stories
-            </ButtonLink>
-          </div>
-        </Reveal>
-      </section>
+        </section>
+      ) : null}
 
       <section className="mx-auto max-w-[960px] px-5 py-12 sm:px-8 sm:py-16 lg:py-24" aria-labelledby="newsletter-heading">
         <Reveal>
           <div className="rounded-md border border-border bg-surface p-7 sm:p-10">
             <div className="grid gap-8 lg:grid-cols-[0.9fr_1fr] lg:items-center">
-              <form className="grid gap-4 lg:order-1" aria-label="Newsletter signup">
-                <TextInput
-                  id="newsletter-email"
-                  label="Email address"
-                  type="email"
-                  autoComplete="email"
-                  helper="Your email will only be used for W Centrum Duszy updates."
-                  required
-                />
-                <Button type="submit" className="w-full sm:w-fit">
-                  Join the newsletter
-                </Button>
-              </form>
-              <div className="-order-1 lg:order-2">
+              <div>
                 <p className="text-caption uppercase text-text-muted">Newsletter</p>
                 <h2 id="newsletter-heading" className="mt-3 text-h2 text-text">Stay close without deciding today.</h2>
                 <p className="mt-5 text-body text-text-muted">
                   Receive quiet notes, new articles, meditations, and workshop updates from W Centrum Duszy.
                 </p>
               </div>
+              <NewsletterForm />
             </div>
           </div>
         </Reveal>
-      </section>
-
-      <section className="bg-mist/30 px-5 py-12 sm:px-8 sm:py-16 lg:py-24" aria-labelledby="contact-heading">
-        <div className="mx-auto grid max-w-[1200px] items-center gap-8 sm:gap-10 lg:grid-cols-[1fr_0.78fr]">
-          <Reveal>
-            <div className="max-w-2xl">
-              <p className="text-caption uppercase text-text-muted">Contact</p>
-              <h2 id="contact-heading" className="mt-3 text-h2 text-text">You are welcome to write with a quiet first hello.</h2>
-              <p className="mt-6 text-body text-text-muted">
-                Ask a question, share a workshop inquiry, or take one small step toward understanding what kind of
-                support feels right.
-              </p>
-              <ButtonLink href="/contact" className="mt-8">
-                Contact Joanna
-              </ButtonLink>
-            </div>
-          </Reveal>
-          <Reveal delay={0.08}>
-            <EditorialImage
-              src="/photos/portraits/joanna-radek-17.webp"
-              alt="Joanna Radek-Petersen smiling warmly."
-              className="mx-auto max-w-[20rem] sm:max-w-[31rem]"
-            />
-          </Reveal>
-        </div>
       </section>
     </div>
   );

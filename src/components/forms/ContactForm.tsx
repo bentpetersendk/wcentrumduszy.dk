@@ -1,26 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState } from "react";
+import { submitContactMessage } from "@/lib/cms/actions";
 import { Button } from "@/components/system/Button";
 import { SelectField, TextArea, TextInput } from "@/components/system/FormControls";
 
 export function ContactForm() {
-  const [submitted, setSubmitted] = useState(false);
+  const [state, formAction, isPending] = useActionState(submitContactMessage, { ok: true, message: "" });
 
   return (
     <form
       className="grid gap-5 rounded-md border border-border bg-surface p-6 sm:p-8"
       aria-label="Contact form"
-      onSubmit={(event) => {
-        event.preventDefault();
-        setSubmitted(true);
-      }}
+      action={formAction}
     >
       <div className="grid gap-5 sm:grid-cols-2">
-        <TextInput id="contact-name" label="Name" autoComplete="name" required />
-        <TextInput id="contact-email" label="Email" type="email" autoComplete="email" required />
+        <TextInput id="contact-name" name="name" label="Name" autoComplete="name" required />
+        <TextInput id="contact-email" name="email" label="Email" type="email" autoComplete="email" required />
       </div>
-      <SelectField id="contact-topic" label="Topic" required defaultValue="">
+      <SelectField id="contact-topic" name="topic" label="Topic" required defaultValue="">
         <option value="" disabled>
           Choose a topic
         </option>
@@ -31,16 +29,17 @@ export function ContactForm() {
       </SelectField>
       <TextArea
         id="contact-message"
+        name="message"
         label="Message"
         required
         helper="Share only what feels useful. Joanna can continue the conversation by email."
       />
-      <Button type="submit" className="w-full sm:w-fit">
+      <Button type="submit" isLoading={isPending} className="w-full sm:w-fit">
         Send message
       </Button>
-      {submitted ? (
-        <p className="rounded-md border border-success/30 bg-success/10 px-4 py-3 text-small text-text" role="status">
-          Thank you. The CMS foundation is ready to store this message once Supabase is connected.
+      {state.message ? (
+        <p className={`rounded-md border px-4 py-3 text-small text-text ${state.ok ? "border-success/30 bg-success/10" : "border-error/30 bg-error/10"}`} role="status">
+          {state.message}
         </p>
       ) : null}
     </form>

@@ -1,18 +1,17 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { PageHero } from "@/components/public/PageHero";
 import { RichTextRenderer } from "@/components/public/RichTextRenderer";
-import { getPage, siteUrl } from "@/lib/content";
-
-const content = getPage("about");
+import { getContentBySlug } from "@/lib/cms/queries";
+import { siteUrl } from "@/lib/cms/mapper";
 
 export const metadata: Metadata = {
-  title: content?.seo.title,
-  description: content?.seo.description,
   alternates: { canonical: `${siteUrl}/about` }
 };
 
-export default function AboutPage() {
-  if (!content) return null;
+export default async function AboutPage() {
+  const content = await getContentBySlug({ slug: "about", type: "page", status: "published" });
+  if (!content) notFound();
 
   return (
     <div>

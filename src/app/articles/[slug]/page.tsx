@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DetailPage } from "@/components/public/DetailPage";
-import { articles, getContentBySlug, getPublished, siteUrl } from "@/lib/content";
+import { siteUrl } from "@/lib/cms/mapper";
+import { getContentBySlug, getPublishedSlugParams } from "@/lib/cms/queries";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
 export function generateStaticParams() {
-  return getPublished(articles).map((item) => ({ slug: item.slug }));
+  return getPublishedSlugParams("article");
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const content = getContentBySlug(articles, slug);
+  const content = await getContentBySlug({ slug, type: "article", status: "published" });
   return {
     title: content?.seo.title,
     description: content?.seo.description,
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ArticleDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const content = getContentBySlug(getPublished(articles), slug);
+  const content = await getContentBySlug({ slug, type: "article", status: "published" });
   if (!content) notFound();
   return <DetailPage content={content} />;
 }

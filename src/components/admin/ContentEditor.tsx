@@ -1,79 +1,84 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useActionState, useEffect, useRef, useState, useTransition } from "react";
 import { Button, ButtonLink } from "@/components/system/Button";
 import { SelectField, TextArea, TextInput } from "@/components/system/FormControls";
-import type { PageContent } from "@/lib/content";
+import { saveContentEntry, setContentStatus } from "@/lib/cms/actions";
+import type { CmsContent, ContentStatus } from "@/lib/cms/types";
 
-export function ContentEditor({ content }: { content: PageContent }) {
-  const storageKey = useMemo(() => `wcd-cms-draft-${content.id}`, [content.id]);
+export function ContentEditor({ content }: { content: CmsContent }) {
+  const formRef = useRef<HTMLFormElement>(null);
   const initialBody = content.body.map((block) => ("text" in block ? block.text : "")).join("\n\n");
-  const [draft, setDraft] = useState(() => {
-    if (typeof window === "undefined") {
-      return { title: content.title, subtitle: content.subtitle, body: initialBody };
-    }
-
-    const saved = window.localStorage.getItem(storageKey);
-    if (!saved) {
-      return { title: content.title, subtitle: content.subtitle, body: initialBody };
-    }
-
-    try {
-      const parsed = JSON.parse(saved) as { title?: string; subtitle?: string; body?: string };
-      return {
-        title: parsed.title ?? content.title,
-        subtitle: parsed.subtitle ?? content.subtitle,
-        body: parsed.body ?? initialBody
-      };
-    } catch {
-      return { title: content.title, subtitle: content.subtitle, body: initialBody };
-    }
-  });
+  const [draft, setDraft] = useState({ title: content.title, subtitle: content.subtitle, body: initialBody });
   const [status, setStatus] = useState(content.status);
-  const [saveState, setSaveState] = useState<"Saved" | "Saving" | "Unsaved changes">("Saved");
+  const [state, formAction, isSaving] = useActionState(saveContentEntry, { ok: true, message: "Saved" });
+  const [isPending, startTransition] = useTransition();
+  const statusText = isSaving ? "Saving..." : state.ok ? "Saved" : `Error: ${state.message}`;
 
   useEffect(() => {
     const timeout = window.setTimeout(() => {
-      setSaveState("Saving");
-      window.localStorage.setItem(storageKey, JSON.stringify({ ...draft, status }));
-      window.setTimeout(() => setSaveState("Saved"), 250);
+      if (!formRef.current) return;
+      startTransition(() => {
+        formAction(new FormData(formRef.current as HTMLFormElement));
+      });
     }, 600);
     return () => window.clearTimeout(timeout);
-  }, [draft, status, storageKey]);
+  }, [draft, formAction, status]);
 
   function updateDraft(field: "title" | "subtitle" | "body", value: string) {
-    setSaveState("Unsaved changes");
     setDraft((current) => ({ ...current, [field]: value }));
   }
 
   return (
     <section className="grid gap-6 lg:grid-cols-[1fr_20rem]">
-      <form className="grid gap-5 rounded-md border border-border bg-surface p-6" aria-label={`${content.title} editor`}>
+      <form ref={formRef} action={formAction} className="grid gap-5 rounded-md border border-border bg-surface p-6" aria-label={`${content.title} editor`}>
+        <input type="hidden" name="id" value={content.id} />
+        <input type="hidden" name="type" value={content.type} />
+        <input type="hidden" name="slug" value={content.slug} />
+        <input type="hidden" name="excerpt" value={content.excerpt} />
+        <input type="hidden" name="heroImage" value={content.heroImage ?? ""} />
+        <input type="hidden" name="heroImageAlt" value={content.imageAlt ?? ""} />
+        <input type="hidden" name="metadata" value={JSON.stringify(content.metadata)} />
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="text-small text-text-muted" role="status">
-            {saveState}
+            {statusText}
           </p>
           <div className="flex gap-3">
             <ButtonLink href={content.seo.canonical} variant="secondary" target="_blank">
               Preview
             </ButtonLink>
-            <Button type="button">Publish</Button>
+            <Button type="submit" variant="secondary">Save Draft</Button>
+            <Button
+              type="button"
+              isLoading={isPending}
+              onClick={() => {
+                startTransition(async () => {
+                  const result = await setContentStatus(content.id, status === "published" ? "draft" : "published");
+                  if (result.ok) setStatus(status === "published" ? "draft" : "published");
+                });
+              }}
+            >
+              {status === "published" ? "Unpublish" : "Publish"}
+            </Button>
           </div>
         </div>
         <TextInput
           id={`${content.id}-title`}
+          name="title"
           label="Title"
           value={draft.title}
           onChange={(event) => updateDraft("title", event.target.value)}
         />
         <TextInput
           id={`${content.id}-subtitle`}
+          name="subtitle"
           label="Subtitle"
           value={draft.subtitle}
           onChange={(event) => updateDraft("subtitle", event.target.value)}
         />
         <TextArea
           id={`${content.id}-body`}
+          name="body"
           label="Rich text blocks"
           value={draft.body}
           onChange={(event) => updateDraft("body", event.target.value)}
@@ -84,10 +89,10 @@ export function ContentEditor({ content }: { content: PageContent }) {
         <SelectField
           id={`${content.id}-status`}
           label="Status"
+          name="status"
           value={status}
           onChange={(event) => {
-            setSaveState("Unsaved changes");
-            setStatus(event.target.value as PageContent["status"]);
+            setStatus(event.target.value as ContentStatus);
           }}
         >
           <option value="draft">Draft</option>

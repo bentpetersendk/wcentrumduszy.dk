@@ -1,8 +1,9 @@
 import { AdminList } from "@/components/admin/AdminList";
 import { AdminShell } from "@/components/admin/AdminShell";
-import { workshops } from "@/lib/content";
+import { getContentList } from "@/lib/cms/queries";
 
-export default function AdminWorkshopsPage() {
+export default async function AdminWorkshopsPage() {
+  const workshops = await getContentList({ type: "workshop" });
   return (
     <AdminShell title="Workshops" description="Manage workshop listings, detail pages, booking metadata, FAQs, and gallery images.">
       <AdminList items={workshops} basePath="/admin/workshops" />

@@ -1,19 +1,18 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { PageHero } from "@/components/public/PageHero";
 import { RichTextRenderer } from "@/components/public/RichTextRenderer";
-import { getPage, siteUrl } from "@/lib/content";
-
-const content = getPage("contact");
+import { getContentBySlug } from "@/lib/cms/queries";
+import { siteUrl } from "@/lib/cms/mapper";
 
 export const metadata: Metadata = {
-  title: content?.seo.title,
-  description: content?.seo.description,
   alternates: { canonical: `${siteUrl}/contact` }
 };
 
-export default function ContactPage() {
-  if (!content) return null;
+export default async function ContactPage() {
+  const content = await getContentBySlug({ slug: "contact", type: "page", status: "published" });
+  if (!content) notFound();
 
   return (
     <div>

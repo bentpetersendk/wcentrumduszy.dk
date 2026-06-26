@@ -1,5 +1,5 @@
 import { ContentCard } from "@/components/public/ContentCard";
-import type { OfferContent } from "@/lib/content";
+import type { CmsContent } from "@/lib/cms/types";
 
 export function ListingPage({
   title,
@@ -10,7 +10,7 @@ export function ListingPage({
 }: {
   title: string;
   subtitle: string;
-  items: OfferContent[];
+  items: CmsContent[];
   basePath: string;
   cta?: string;
 }) {

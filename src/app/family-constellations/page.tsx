@@ -1,18 +1,17 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { PageHero } from "@/components/public/PageHero";
 import { RichTextRenderer } from "@/components/public/RichTextRenderer";
-import { getPage, siteUrl } from "@/lib/content";
-
-const content = getPage("family-constellations");
+import { getContentBySlug } from "@/lib/cms/queries";
+import { siteUrl } from "@/lib/cms/mapper";
 
 export const metadata: Metadata = {
-  title: content?.seo.title,
-  description: content?.seo.description,
   alternates: { canonical: `${siteUrl}/family-constellations` }
 };
 
-export default function FamilyConstellationsPage() {
-  if (!content) return null;
+export default async function FamilyConstellationsPage() {
+  const content = await getContentBySlug({ slug: "family-constellations", type: "page", status: "published" });
+  if (!content) notFound();
 
   return (
     <div>

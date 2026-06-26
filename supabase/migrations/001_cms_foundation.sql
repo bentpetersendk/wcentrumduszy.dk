@@ -44,6 +44,8 @@ create table public.media_assets (
   path text not null,
   alt text not null default '',
   caption text,
+  folder text not null default 'gallery',
+  sort_order integer not null default 0,
   mime_type text,
   size_bytes bigint,
   width integer,
@@ -91,6 +93,7 @@ create index content_entries_language_status_idx on public.content_entries (lang
 create index content_entries_translation_group_idx on public.content_entries (translation_group_id);
 create index content_entries_published_idx on public.content_entries (published_at desc) where status = 'published';
 create index media_assets_created_at_idx on public.media_assets (created_at desc);
+create index media_assets_folder_sort_idx on public.media_assets (folder, sort_order, created_at desc);
 create index contact_messages_status_created_idx on public.contact_messages (status, created_at desc);
 create index newsletter_subscribers_active_idx on public.newsletter_subscribers (created_at desc) where unsubscribed_at is null;
 

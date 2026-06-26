@@ -12,7 +12,13 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   images: {
     // Keep local image handling compatible with static export fallback and Vercel.
-    unoptimized: true
+    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "*.supabase.co"
+      }
+    ]
   }
 };
 

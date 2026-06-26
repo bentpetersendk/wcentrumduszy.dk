@@ -1,17 +1,16 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { PageHero } from "@/components/public/PageHero";
 import { RichTextRenderer } from "@/components/public/RichTextRenderer";
-import { getPage } from "@/lib/content";
-
-const content = getPage("legal/privacy");
+import { getContentBySlug } from "@/lib/cms/queries";
 
 export const metadata: Metadata = {
-  title: content?.seo.title,
-  description: content?.seo.description
+  title: "Privacy Policy"
 };
 
-export default function PrivacyPage() {
-  if (!content) return null;
+export default async function PrivacyPage() {
+  const content = await getContentBySlug({ slug: "legal/privacy", type: "page", status: "published" });
+  if (!content) notFound();
   return (
     <div>
       <PageHero content={content} />

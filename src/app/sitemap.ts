@@ -1,10 +1,12 @@
 import type { MetadataRoute } from "next";
-import { allPublicContent, getPublished, siteUrl } from "@/lib/content";
+import { siteUrl } from "@/lib/cms/mapper";
+import { getContentList } from "@/lib/cms/queries";
 
-export const dynamic = "force-static";
+export const dynamic = "force-dynamic";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const contentRoutes = getPublished(allPublicContent).map((item) => ({
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const content = await getContentList({ status: "published" });
+  const contentRoutes = content.map((item) => ({
     url: `${siteUrl}${item.seo.canonical}`,
     lastModified: item.updatedAt,
     changeFrequency: "monthly" as const,
