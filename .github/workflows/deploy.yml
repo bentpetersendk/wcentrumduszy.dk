@@ -22,6 +22,7 @@ jobs:
       # Remove this env var once a custom domain (public/CNAME) is in place,
       # so the site is built to serve from the domain root instead.
       NEXT_BASE_PATH: /wcentrumduszy.dk
+      NEXT_OUTPUT: export
     steps:
       - name: Checkout
         uses: actions/checkout@v4

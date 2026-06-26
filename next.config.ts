@@ -4,14 +4,14 @@ import type { NextConfig } from "next";
 // (https://<user>.github.io/<repo>). Leave unset for local dev and for a
 // custom domain deployment, where the site is served from the root.
 const basePath = process.env.NEXT_BASE_PATH ?? "";
+const isStaticExport = process.env.NEXT_OUTPUT === "export";
 
 const nextConfig: NextConfig = {
-  output: "export",
+  output: isStaticExport ? "export" : undefined,
   basePath,
   trailingSlash: true,
   images: {
-    // Next's Image Optimization API requires a server and isn't available
-    // on static hosts like GitHub Pages, so images are served unoptimized.
+    // Keep local image handling compatible with static export fallback and Vercel.
     unoptimized: true
   }
 };
