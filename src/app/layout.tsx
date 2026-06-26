@@ -36,7 +36,7 @@ export default function RootLayout({
     <html lang="pl" className={`${display.variable} ${sans.variable}`}>
       <body>
         <Header />
-        <main id="main-content" className="min-h-[48vh]">
+        <main id="main-content" tabIndex={-1} className="min-h-[48vh] focus:outline-none">
           {children}
         </main>
         <Footer />
@@ -44,4 +44,3 @@ export default function RootLayout({
     </html>
   );
 }
-

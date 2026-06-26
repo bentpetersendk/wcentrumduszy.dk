@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useId, useState } from "react";
 import { languages, type NavigationItem } from "@/lib/navigation";
@@ -12,7 +11,6 @@ type MobileNavigationProps = {
 export function MobileNavigation({ items }: MobileNavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
   const panelId = useId();
-  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     if (!isOpen) {
@@ -33,8 +31,6 @@ export function MobileNavigation({ items }: MobileNavigationProps) {
       document.body.style.overflow = "";
     };
   }, [isOpen]);
-
-  const transition = shouldReduceMotion ? { duration: 0 } : { duration: 0.25 };
 
   return (
     <div className="lg:hidden">
@@ -65,24 +61,15 @@ export function MobileNavigation({ items }: MobileNavigationProps) {
         </span>
       </button>
 
-      <AnimatePresence>
-        {isOpen ? (
-          <motion.div
-            className="fixed inset-0 z-40 bg-text/20 backdrop-blur-[2px]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={transition}
-            onClick={() => setIsOpen(false)}
-          >
-            <motion.nav
+      {isOpen ? (
+        <div
+          className="fixed inset-0 z-40 bg-text/20 backdrop-blur-[2px]"
+          onClick={() => setIsOpen(false)}
+        >
+          <nav
               id={panelId}
               aria-label="Mobile navigation"
-              className="ml-auto flex min-h-dvh w-[min(88vw,28rem)] flex-col bg-background px-6 py-6 shadow-lift"
-              initial={{ opacity: 0, x: shouldReduceMotion ? 0 : 24 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: shouldReduceMotion ? 0 : 24 }}
-              transition={transition}
+              className="ml-auto flex min-h-dvh w-[min(88vw,28rem)] flex-col bg-background px-6 py-6 shadow-lift motion-safe:animate-[slide-in_180ms_ease-out]"
               onClick={(event) => event.stopPropagation()}
             >
               <div className="mb-10 flex items-center justify-between">
@@ -129,10 +116,9 @@ export function MobileNavigation({ items }: MobileNavigationProps) {
                   ))}
                 </div>
               </div>
-            </motion.nav>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+          </nav>
+        </div>
+      ) : null}
     </div>
   );
 }

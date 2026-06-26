@@ -32,6 +32,7 @@ export function EditorialImage({
         alt={alt}
         fill
         priority={priority}
+        fetchPriority={priority ? "high" : undefined}
         sizes="(min-width: 1024px) 44vw, 100vw"
         className="object-cover transition-transform duration-[450ms] ease-soft group-hover:motion-safe:scale-[1.015]"
       />
@@ -44,4 +45,3 @@ export function EditorialImage({
     </figure>
   );
 }
-

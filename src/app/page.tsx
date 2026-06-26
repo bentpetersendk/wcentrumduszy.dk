@@ -35,32 +35,31 @@ const offers = [
 export default function Home() {
   return (
     <div>
-      <section className="mx-auto grid min-h-[calc(100svh-72px)] max-w-[1200px] items-center gap-10 px-5 py-16 sm:px-8 lg:min-h-[calc(100svh-88px)] lg:grid-cols-[1fr_0.95fr] lg:gap-8 lg:py-24">
+      <section className="mx-auto grid max-w-[1200px] items-center gap-8 px-5 pb-12 pt-10 sm:px-8 sm:py-16 lg:min-h-[calc(100svh-88px)] lg:grid-cols-[1fr_0.95fr] lg:gap-8 lg:py-24">
         <div className="max-w-2xl">
           <h1 className="text-display text-text">Return to the quiet center within you.</h1>
-          <p className="mt-7 max-w-xl text-body-large text-text-muted">
+          <p className="mt-5 max-w-xl text-body-large text-text-muted sm:mt-7">
             W Centrum Duszy is Joanna Radek-Petersen&apos;s space for reflection, guided practice,
             workshops, and personal growth.
           </p>
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-            <ButtonLink href="/workshops">Explore workshops</ButtonLink>
-            <ButtonLink href="/about" variant="secondary">Read about Joanna</ButtonLink>
+          <div className="mt-7 flex flex-col gap-3 sm:mt-10 sm:flex-row">
+            <ButtonLink href="/workshops" className="w-full sm:w-auto">Explore workshops</ButtonLink>
+            <ButtonLink href="/about" variant="secondary" className="w-full sm:w-auto">Read about Joanna</ButtonLink>
           </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-[39rem] lg:ml-auto">
+        <div className="relative mx-auto w-full max-w-[13rem] sm:max-w-[32rem] lg:ml-auto lg:max-w-[39rem]">
           <div className="absolute -left-6 top-10 hidden h-40 w-24 rounded-md bg-mist/70 lg:block" />
           <EditorialImage
             src="/photos/portraits/joanna-radek-01.webp"
             alt="Joanna Radek-Petersen seated in a bright calm room, holding a cup."
             priority
-            marker="Placeholder: clean original needed"
             className="relative shadow-soft"
           />
         </div>
       </section>
 
-      <section className="px-5 py-16 sm:px-8 lg:py-24" aria-labelledby="trust-heading">
+      <section className="px-5 py-12 sm:px-8 sm:py-16 lg:py-24" aria-labelledby="trust-heading">
         <Reveal>
           <div className="mx-auto max-w-[760px] text-center">
             <div className="mx-auto mb-8 h-px w-24 bg-border" />
@@ -78,7 +77,7 @@ export default function Home() {
         </Reveal>
       </section>
 
-      <section className="mx-auto max-w-[1200px] px-5 py-16 sm:px-8 lg:py-24" aria-labelledby="offers-heading">
+      <section className="mx-auto max-w-[1200px] px-5 py-12 sm:px-8 sm:py-16 lg:py-24" aria-labelledby="offers-heading">
         <Reveal>
           <div className="mb-10 max-w-2xl">
             <h2 id="offers-heading" className="text-h2 text-text">Ways to begin gently.</h2>
@@ -103,13 +102,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-[1200px] items-start gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[0.82fr_1fr] lg:py-24" aria-labelledby="about-heading">
+      <section className="mx-auto grid max-w-[1200px] items-start gap-8 px-5 py-12 sm:gap-10 sm:px-8 sm:py-16 lg:grid-cols-[0.82fr_1fr] lg:py-24" aria-labelledby="about-heading">
         <Reveal>
           <EditorialImage
             src="/photos/portraits/joanna-radek-11.webp"
             alt="Joanna Radek-Petersen smiling softly in natural light."
-            marker="Placeholder: clean original needed"
-            className="mx-auto max-w-[30rem]"
+            className="mx-auto max-w-[20rem] sm:max-w-[30rem]"
           />
         </Reveal>
         <Reveal delay={0.08}>
@@ -130,34 +128,32 @@ export default function Home() {
         </Reveal>
       </section>
 
-      <section className="px-5 py-24 sm:px-8 lg:py-32" aria-label="A quiet pause">
+      <section className="px-5 py-16 sm:px-8 sm:py-20 lg:py-32" aria-label="A quiet pause">
         <Reveal>
           <div className="mx-auto max-w-[640px] text-center">
-            <p className="font-display text-[1.6rem] italic leading-snug text-text sm:text-[1.9rem]">
+            <p className="font-display text-[1.45rem] italic leading-snug text-text sm:text-[1.9rem]">
               Sometimes the most important step is simply allowing yourself to pause.
             </p>
           </div>
         </Reveal>
         <Reveal delay={0.1}>
-          <div className="mx-auto mt-12 max-w-[58rem]">
+          <div className="mx-auto mt-8 max-w-[58rem] sm:mt-12">
             <EditorialImage
               src="/photos/portraits/joanna-radek-04.webp"
               alt="Joanna Radek-Petersen looking out over a quiet green view."
               aspect="wide"
-              marker="Placeholder: clean original needed"
             />
           </div>
         </Reveal>
       </section>
 
-      <section className="bg-mist/55 px-5 py-16 sm:px-8 lg:py-24" aria-labelledby="featured-workshop-heading">
-        <div className="mx-auto grid max-w-[1200px] items-center gap-10 lg:grid-cols-[1.08fr_1fr]">
+      <section className="bg-mist/55 px-5 py-12 sm:px-8 sm:py-16 lg:py-24" aria-labelledby="featured-workshop-heading">
+        <div className="mx-auto grid max-w-[1200px] items-center gap-8 sm:gap-10 lg:grid-cols-[1.08fr_1fr]">
           <Reveal delay={0.1}>
             <EditorialImage
               src="/photos/portraits/joanna-radek-13.webp"
               alt="Joanna Radek-Petersen preparing materials at a table."
               aspect="wide"
-              marker="Placeholder: clean original needed"
             />
           </Reveal>
           <Reveal>
@@ -187,21 +183,20 @@ export default function Home() {
                 </div>
               </dl>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <ButtonLink href="/workshops" variant="secondary">View details</ButtonLink>
-                <ButtonLink href="/contact" variant="text">Ask a question</ButtonLink>
+                <ButtonLink href="/workshops" variant="secondary" className="w-full sm:w-auto">View details</ButtonLink>
+                <ButtonLink href="/contact" variant="text" className="w-full sm:w-auto">Ask a question</ButtonLink>
               </div>
             </div>
           </Reveal>
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-[1200px] items-start gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[0.9fr_1fr] lg:py-24" aria-labelledby="meditation-heading">
+      <section className="mx-auto grid max-w-[1200px] items-start gap-8 px-5 py-12 sm:gap-10 sm:px-8 sm:py-16 lg:grid-cols-[0.9fr_1fr] lg:py-24" aria-labelledby="meditation-heading">
         <Reveal>
           <EditorialImage
             src="/photos/portraits/joanna-radek-16.webp"
             alt="Joanna Radek-Petersen seated calmly in a reflective pose."
-            marker="Placeholder: clean original needed"
-            className="mx-auto max-w-[30rem]"
+            className="mx-auto max-w-[20rem] sm:max-w-[30rem]"
           />
         </Reveal>
         <Reveal delay={0.08}>
@@ -233,7 +228,7 @@ export default function Home() {
         </Reveal>
       </section>
 
-      <section className="px-5 py-16 sm:px-8 lg:py-24" aria-labelledby="testimonial-heading">
+      <section className="px-5 py-12 sm:px-8 sm:py-16 lg:py-24" aria-labelledby="testimonial-heading">
         <Reveal>
           <div className="mx-auto max-w-[820px] text-center">
             <p className="text-caption uppercase text-text-muted">A note from the experience</p>
@@ -241,7 +236,7 @@ export default function Home() {
             <p aria-hidden="true" className="mt-3 font-display text-[4.5rem] leading-none text-mist">
               &ldquo;
             </p>
-            <blockquote className="mt-1 font-display text-[2.25rem] leading-[1.2] text-text sm:text-[2.75rem]">
+            <blockquote className="mt-1 font-display text-[1.85rem] leading-[1.18] text-text sm:text-[2.75rem]">
               A calm and thoughtful space where I could listen to myself more clearly.
             </blockquote>
             <p className="mt-7 text-small text-text-muted">
@@ -254,7 +249,7 @@ export default function Home() {
         </Reveal>
       </section>
 
-      <section className="mx-auto max-w-[960px] px-5 py-16 sm:px-8 lg:py-24" aria-labelledby="newsletter-heading">
+      <section className="mx-auto max-w-[960px] px-5 py-12 sm:px-8 sm:py-16 lg:py-24" aria-labelledby="newsletter-heading">
         <Reveal>
           <div className="rounded-md border border-border bg-surface p-7 sm:p-10">
             <div className="grid gap-8 lg:grid-cols-[0.9fr_1fr] lg:items-center">
@@ -271,7 +266,7 @@ export default function Home() {
                   Join the newsletter
                 </Button>
               </form>
-              <div className="lg:order-2">
+              <div className="-order-1 lg:order-2">
                 <p className="text-caption uppercase text-text-muted">Newsletter</p>
                 <h2 id="newsletter-heading" className="mt-3 text-h2 text-text">Stay close without deciding today.</h2>
                 <p className="mt-5 text-body text-text-muted">
@@ -283,8 +278,8 @@ export default function Home() {
         </Reveal>
       </section>
 
-      <section className="bg-mist/30 px-5 py-16 sm:px-8 lg:py-24" aria-labelledby="contact-heading">
-        <div className="mx-auto grid max-w-[1200px] items-center gap-10 lg:grid-cols-[1fr_0.78fr]">
+      <section className="bg-mist/30 px-5 py-12 sm:px-8 sm:py-16 lg:py-24" aria-labelledby="contact-heading">
+        <div className="mx-auto grid max-w-[1200px] items-center gap-8 sm:gap-10 lg:grid-cols-[1fr_0.78fr]">
           <Reveal>
             <div className="max-w-2xl">
               <p className="text-caption uppercase text-text-muted">Contact</p>
@@ -302,8 +297,7 @@ export default function Home() {
             <EditorialImage
               src="/photos/portraits/joanna-radek-17.webp"
               alt="Joanna Radek-Petersen smiling warmly."
-              marker="Placeholder: clean original needed"
-              className="mx-auto max-w-[31rem]"
+              className="mx-auto max-w-[20rem] sm:max-w-[31rem]"
             />
           </Reveal>
         </div>
