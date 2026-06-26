@@ -33,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pl" className={`${display.variable} ${sans.variable}`}>
+    <html lang="pl" data-scroll-behavior="smooth" className={`${display.variable} ${sans.variable}`}>
       <body>
         <Header />
         <main id="main-content" tabIndex={-1} className="min-h-[48vh] focus:outline-none">
