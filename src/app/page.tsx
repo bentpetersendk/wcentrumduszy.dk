@@ -155,7 +155,7 @@ export default function Home() {
             <EditorialImage
               src="/photos/portraits/joanna-radek-13.webp"
               alt="Joanna Radek-Petersen preparing materials at a table."
-              aspect="landscape"
+              aspect="wide"
               marker="Placeholder: clean original needed"
             />
           </Reveal>
