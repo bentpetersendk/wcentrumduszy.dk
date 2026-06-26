@@ -1,5 +1,6 @@
 import { Button, ButtonLink } from "@/components/system/Button";
 import { EditorialImage } from "@/components/system/EditorialImage";
+import { Icon } from "@/components/system/icons/Icon";
 import { Reveal } from "@/components/system/Reveal";
 import { SystemCard } from "@/components/system/Card";
 import { TextInput } from "@/components/system/FormControls";
@@ -211,13 +212,18 @@ export default function Home() {
               A short guided practice for returning to the breath and meeting yourself without needing to solve
               everything at once.
             </p>
-            <div className="mt-8 rounded-md bg-background p-5">
-              <div className="h-1.5 overflow-hidden rounded-full bg-border" aria-hidden="true">
-                <div className="h-full w-1/3 rounded-full bg-clay" />
-              </div>
-              <div className="mt-3 flex justify-between text-caption text-text-muted">
-                <span>Preview</span>
-                <span>5 min</span>
+            <div className="mt-8 flex items-center gap-4">
+              <span
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-border text-text"
+                aria-hidden="true"
+              >
+                <Icon name="play" size={16} fill="currentColor" stroke="none" />
+              </span>
+              <div className="flex-1">
+                <div className="h-1 overflow-hidden rounded-full bg-border" aria-hidden="true">
+                  <div className="h-full w-1/3 rounded-full bg-clay" />
+                </div>
+                <p className="mt-2 text-caption text-text-muted">Preview &middot; 5 min</p>
               </div>
             </div>
             <ButtonLink href="/meditations" variant="secondary" className="mt-8">
