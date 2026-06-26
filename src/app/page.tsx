@@ -129,6 +129,26 @@ export default function Home() {
         </Reveal>
       </section>
 
+      <section className="px-5 py-24 sm:px-8 lg:py-32" aria-label="A quiet pause">
+        <Reveal>
+          <div className="mx-auto max-w-[640px] text-center">
+            <p className="font-display text-[1.6rem] italic leading-snug text-text sm:text-[1.9rem]">
+              Sometimes the most important step is simply allowing yourself to pause.
+            </p>
+          </div>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <div className="mx-auto mt-12 max-w-[58rem]">
+            <EditorialImage
+              src="/photos/portraits/joanna-radek-04.webp"
+              alt="Joanna Radek-Petersen looking out over a quiet green view."
+              aspect="wide"
+              marker="Placeholder: clean original needed"
+            />
+          </div>
+        </Reveal>
+      </section>
+
       <section className="bg-mist/55 px-5 py-16 sm:px-8 lg:py-24" aria-labelledby="featured-workshop-heading">
         <div className="mx-auto grid max-w-[1200px] items-center gap-10 lg:grid-cols-[1.08fr_1fr]">
           <Reveal delay={0.1}>
