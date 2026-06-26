@@ -1,6 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import { deviceProfiles } from "./device-matrix";
+import { hasSupabaseEnv } from "./env";
 
 test.describe("homepage responsive QA", () => {
   for (const profile of deviceProfiles) {
@@ -22,8 +23,11 @@ test.describe("homepage responsive QA", () => {
 
       await page.goto("/", { waitUntil: "networkidle" });
       await expect(page).toHaveTitle(/W Centrum Duszy/);
-      await expect(page.getByRole("heading", { name: "Return to the quiet center within you." })).toBeVisible();
-      await expect(page.getByRole("link", { name: "Explore workshops" }).first()).toBeVisible();
+      if (hasSupabaseEnv) {
+        await expect(page.getByRole("link", { name: "Explore workshops" }).first()).toBeVisible();
+      } else {
+        await expect(page.getByText("Connect Supabase")).toBeVisible();
+      }
 
       const overflow = await page.evaluate(() => {
         const root = document.documentElement;

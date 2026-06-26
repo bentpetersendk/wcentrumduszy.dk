@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { hasSupabaseEnv } from "./env";
 
 const publicRoutes = [
   "/about",
@@ -23,6 +24,7 @@ const publicRoutes = [
 test.describe("public page coverage", () => {
   for (const route of publicRoutes) {
     test(`${route} renders without layout overflow`, async ({ page }) => {
+      test.skip(!hasSupabaseEnv, "Public CMS routes require Supabase seeded content.");
       await page.goto(route);
       await expect(page.locator("main")).toBeVisible();
       await expect(page.locator("h1")).toBeVisible();
@@ -43,6 +45,7 @@ test.describe("public page coverage", () => {
   });
 
   test("contact and newsletter forms are keyboard reachable", async ({ page }) => {
+    test.skip(!hasSupabaseEnv, "Form persistence requires Supabase environment.");
     await page.goto("/contact");
     await page.getByLabel("Name").fill("Joanna");
     await page.getByLabel("Email").fill("hello@example.com");
@@ -59,6 +62,7 @@ test.describe("public page coverage", () => {
   });
 
   test("representative public pages pass automated accessibility checks", async ({ page }) => {
+    test.skip(!hasSupabaseEnv, "Public CMS routes require Supabase seeded content.");
     for (const route of ["/about", "/workshops/returning-to-yourself", "/contact"]) {
       await page.goto(route);
       const results = await new AxeBuilder({ page }).disableRules(["color-contrast"]).analyze();

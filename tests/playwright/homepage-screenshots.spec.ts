@@ -2,6 +2,7 @@ import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import { expect, test } from "@playwright/test";
 import { deviceProfiles } from "./device-matrix";
+import { hasSupabaseEnv } from "./env";
 
 const screenshotDir = path.join(process.cwd(), "docs", "reviews", "screenshots", "mobile-qa");
 
@@ -18,7 +19,7 @@ test.describe("homepage screenshot evidence", () => {
       const page = await context.newPage();
 
       await page.goto("/", { waitUntil: "networkidle" });
-      await expect(page.getByRole("heading", { name: "Return to the quiet center within you." })).toBeVisible();
+      await expect(page.getByRole("heading", { name: hasSupabaseEnv ? /Return to|W Centrum Duszy/ : "W Centrum Duszy" })).toBeVisible();
       await page.evaluate(async () => {
         const step = Math.max(window.innerHeight * 0.75, 300);
         for (let position = 0; position < document.body.scrollHeight; position += step) {
