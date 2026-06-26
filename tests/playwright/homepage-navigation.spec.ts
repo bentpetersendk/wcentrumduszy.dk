@@ -8,7 +8,9 @@ test("desktop navigation exposes primary links and keyboard focus", async ({ pag
   await expect(page.getByRole("link", { name: "Skip to main content" })).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(page.locator("#main-content")).toBeFocused();
-  await expect(page.getByRole("navigation", { name: "Primary navigation" })).toBeVisible();
+  const nav = page.getByRole("navigation", { name: "Primary navigation" });
+  await expect(nav).toBeVisible();
+  await expect(nav.getByRole("link", { name: "About Joanna" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Contact Joanna" }).first()).toBeVisible();
 });
 
@@ -22,6 +24,7 @@ test("mobile navigation opens, links are reachable, and escape closes it", async
 
   const menu = page.getByRole("navigation", { name: "Mobile navigation" });
   await expect(menu).toBeVisible();
+  await expect(menu.getByRole("link", { name: "Family Constellations" })).toBeVisible();
   await expect(menu.getByRole("link", { name: "Workshops" })).toBeVisible();
 
   await page.keyboard.press("Escape");

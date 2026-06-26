@@ -4,7 +4,7 @@ Date: 2026-06-26
 
 ## Scope
 
-Homepage responsive QA and production-readiness pass. No new pages or features were added.
+Homepage responsive QA, Phase 3 public website route coverage, CMS foundation smoke testing, and production-readiness pass.
 
 ## Tested Devices
 
@@ -17,6 +17,13 @@ Playwright device emulation covered:
 - Small desktop, laptop, 1440p desktop, ultra-wide desktop
 
 Cross-browser smoke checks ran in Chromium, WebKit, Firefox, mobile Chrome, and mobile Safari projects.
+
+Phase 3 route coverage also included:
+
+- About Joanna, Family Constellations, Workshops, workshop detail, Courses, Meditations, meditation detail
+- Articles, article detail, Gallery, FAQ, Contact, Newsletter
+- Privacy Policy, Cookie Policy, Terms & Conditions, 404
+- Admin dashboard, login, homepage editor, content lists, content editors, media library, messages, newsletter, settings
 
 ## Screenshot Evidence
 
@@ -37,6 +44,11 @@ The screenshot suite scrolls through the page before capture so lazy-loaded phot
 - Skip-link target could not receive focus reliably.
 - Initial Playwright heuristics exposed possible clipping/overflow risks, then were refined to avoid false positives from screen-reader-only text.
 - Lighthouse identified the hero portrait as the LCP candidate and requested explicit high priority on the image.
+- Phase 3 navigation needed to match the approved public structure and remove Courses from the primary nav.
+- New placeholder Courses page needed a real page-level H1 for route/accessibility consistency.
+- Admin shell initially introduced a nested main landmark inside the global layout.
+- Admin editor label tests exposed ambiguous accessible names around Title/Subtitle.
+- A stale Next dev overlay surfaced during Playwright after an earlier editor autosave change; clearing generated state and guarding localStorage parsing resolved the run.
 
 ## Improvements Made
 
@@ -49,10 +61,16 @@ The screenshot suite scrolls through the page before capture so lazy-loaded phot
 - Added focusability to the main landmark for skip-link navigation.
 - Added `fetchPriority="high"` for priority editorial images.
 - Added Playwright responsive, screenshot, accessibility, navigation, and performance smoke tests.
+- Added the complete Phase 3 public route surface and content-driven detail/list templates.
+- Added contact and newsletter form experiences with keyboard coverage and future Supabase storage hooks.
+- Added CMS admin shell, login, dashboard, autosaving content editor, publishing controls, media/message/newsletter/settings foundations.
+- Added Supabase CMS migration with Auth-linked admin profiles, content entries, media assets, contact messages, newsletter subscribers, site settings, indexes, RLS, and storage buckets.
+- Added Vercel deployment configuration while preserving the legacy GitHub Pages static export fallback via `NEXT_OUTPUT=export`.
+- Updated sitemap coverage for published content routes.
 
 ## Accessibility Results
 
-- Axe accessibility checks passed across the Chromium device matrix.
+- Axe accessibility checks passed across the Chromium device matrix and representative public/admin routes across configured browser projects.
 - Lighthouse Accessibility: 100.
 - Keyboard checks passed for skip link, desktop navigation, and mobile drawer.
 - Touch targets and color contrast passed automated checks.
@@ -60,7 +78,7 @@ The screenshot suite scrolls through the page before capture so lazy-loaded phot
 
 ## Lighthouse Results
 
-Production-style Lighthouse run against the static export on `http://127.0.0.1:3000` using `--throttling-method=provided`:
+Production-style Lighthouse run against the local Next server on `http://127.0.0.1:3000` using `--throttling-method=provided`:
 
 - Performance: 100
 - Accessibility: 100
@@ -85,5 +103,6 @@ All passed.
 
 ## Remaining Recommendations
 
-- Re-run Lighthouse against the live GitHub Pages URL after deployment because CDN headers and remote latency can differ from local static serving.
-- Consider adding a CI job for the Playwright suite once the branch is merged.
+- Connect the Vercel project and Supabase environment variables before enabling live CMS writes.
+- Re-run Lighthouse against the live Vercel URL after deployment because CDN headers and remote latency can differ from local serving.
+- Consider running the full Playwright suite in CI on release branches; the suite passed locally with 160 executed tests and 165 intentional project/device skips.
