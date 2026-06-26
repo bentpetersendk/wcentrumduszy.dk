@@ -102,7 +102,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-[1200px] items-center gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[0.82fr_1fr] lg:py-24" aria-labelledby="about-heading">
+      <section className="mx-auto grid max-w-[1200px] items-start gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[0.82fr_1fr] lg:py-24" aria-labelledby="about-heading">
         <Reveal>
           <EditorialImage
             src="/photos/portraits/joanna-radek-11.webp"
@@ -112,7 +112,7 @@ export default function Home() {
           />
         </Reveal>
         <Reveal delay={0.08}>
-          <div className="max-w-2xl">
+          <div className="max-w-2xl lg:pt-6">
             <p className="text-caption uppercase text-text-muted">About Joanna</p>
             <h2 id="about-heading" className="mt-3 text-h2 text-text">A real person holding a calm space.</h2>
             <p className="mt-6 text-body text-text-muted">
@@ -130,7 +130,15 @@ export default function Home() {
       </section>
 
       <section className="bg-mist/55 px-5 py-16 sm:px-8 lg:py-24" aria-labelledby="featured-workshop-heading">
-        <div className="mx-auto grid max-w-[1200px] items-center gap-10 lg:grid-cols-[1fr_0.86fr]">
+        <div className="mx-auto grid max-w-[1200px] items-center gap-10 lg:grid-cols-[1.08fr_1fr]">
+          <Reveal delay={0.1}>
+            <EditorialImage
+              src="/photos/portraits/joanna-radek-13.webp"
+              alt="Joanna Radek-Petersen preparing materials at a table."
+              aspect="landscape"
+              marker="Placeholder: clean original needed"
+            />
+          </Reveal>
           <Reveal>
             <div className="max-w-2xl">
               <p className="text-caption uppercase text-text-muted">Featured workshop</p>
@@ -163,18 +171,10 @@ export default function Home() {
               </div>
             </div>
           </Reveal>
-          <Reveal delay={0.1}>
-            <EditorialImage
-              src="/photos/portraits/joanna-radek-13.webp"
-              alt="Joanna Radek-Petersen preparing materials at a table."
-              aspect="landscape"
-              marker="Placeholder: clean original needed"
-            />
-          </Reveal>
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-[1200px] items-center gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[0.9fr_1fr] lg:py-24" aria-labelledby="meditation-heading">
+      <section className="mx-auto grid max-w-[1200px] items-start gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[0.9fr_1fr] lg:py-24" aria-labelledby="meditation-heading">
         <Reveal>
           <EditorialImage
             src="/photos/portraits/joanna-radek-16.webp"
@@ -184,7 +184,7 @@ export default function Home() {
           />
         </Reveal>
         <Reveal delay={0.08}>
-          <div className="rounded-md border border-border bg-surface p-7 sm:p-9">
+          <div className="rounded-md border border-border bg-surface p-7 sm:p-9 lg:mt-6">
             <p className="text-caption uppercase text-text-muted">A quiet first step</p>
             <h2 id="meditation-heading" className="mt-3 text-h2 text-text">A five-minute pause.</h2>
             <p className="mt-6 text-body text-text-muted">
@@ -228,15 +228,8 @@ export default function Home() {
       <section className="mx-auto max-w-[960px] px-5 py-16 sm:px-8 lg:py-24" aria-labelledby="newsletter-heading">
         <Reveal>
           <div className="rounded-md border border-border bg-surface p-7 sm:p-10">
-            <div className="grid gap-8 lg:grid-cols-[0.9fr_1fr] lg:items-end">
-              <div>
-                <p className="text-caption uppercase text-text-muted">Newsletter</p>
-                <h2 id="newsletter-heading" className="mt-3 text-h2 text-text">Stay close without deciding today.</h2>
-                <p className="mt-5 text-body text-text-muted">
-                  Receive quiet notes, new articles, meditations, and workshop updates from W Centrum Duszy.
-                </p>
-              </div>
-              <form className="grid gap-4" aria-label="Newsletter signup">
+            <div className="grid gap-8 lg:grid-cols-[0.9fr_1fr] lg:items-center">
+              <form className="grid gap-4 lg:order-1" aria-label="Newsletter signup">
                 <TextInput
                   id="newsletter-email"
                   label="Email address"
@@ -249,33 +242,42 @@ export default function Home() {
                   Join the newsletter
                 </Button>
               </form>
+              <div className="lg:order-2">
+                <p className="text-caption uppercase text-text-muted">Newsletter</p>
+                <h2 id="newsletter-heading" className="mt-3 text-h2 text-text">Stay close without deciding today.</h2>
+                <p className="mt-5 text-body text-text-muted">
+                  Receive quiet notes, new articles, meditations, and workshop updates from W Centrum Duszy.
+                </p>
+              </div>
             </div>
           </div>
         </Reveal>
       </section>
 
-      <section className="mx-auto grid max-w-[1200px] items-center gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[1fr_0.78fr] lg:py-24" aria-labelledby="contact-heading">
-        <Reveal>
-          <div className="max-w-2xl">
-            <p className="text-caption uppercase text-text-muted">Contact</p>
-            <h2 id="contact-heading" className="mt-3 text-h2 text-text">You are welcome to write with a quiet first hello.</h2>
-            <p className="mt-6 text-body text-text-muted">
-              Ask a question, share a workshop inquiry, or take one small step toward understanding what kind of
-              support feels right.
-            </p>
-            <ButtonLink href="/contact" className="mt-9">
-              Contact Joanna
-            </ButtonLink>
-          </div>
-        </Reveal>
-        <Reveal delay={0.08}>
-          <EditorialImage
-            src="/photos/portraits/joanna-radek-17.webp"
-            alt="Joanna Radek-Petersen smiling warmly."
-            marker="Placeholder: clean original needed"
-            className="mx-auto max-w-[28rem]"
-          />
-        </Reveal>
+      <section className="bg-mist/30 px-5 py-16 sm:px-8 lg:py-24" aria-labelledby="contact-heading">
+        <div className="mx-auto grid max-w-[1200px] items-center gap-10 lg:grid-cols-[1fr_0.78fr]">
+          <Reveal>
+            <div className="max-w-2xl">
+              <p className="text-caption uppercase text-text-muted">Contact</p>
+              <h2 id="contact-heading" className="mt-3 text-h2 text-text">You are welcome to write with a quiet first hello.</h2>
+              <p className="mt-6 text-body text-text-muted">
+                Ask a question, share a workshop inquiry, or take one small step toward understanding what kind of
+                support feels right.
+              </p>
+              <ButtonLink href="/contact" className="mt-9">
+                Contact Joanna
+              </ButtonLink>
+            </div>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <EditorialImage
+              src="/photos/portraits/joanna-radek-17.webp"
+              alt="Joanna Radek-Petersen smiling warmly."
+              marker="Placeholder: clean original needed"
+              className="mx-auto max-w-[28rem]"
+            />
+          </Reveal>
+        </div>
       </section>
     </div>
   );
