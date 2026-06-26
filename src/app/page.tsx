@@ -186,7 +186,7 @@ export default function Home() {
                   <dd className="mt-1">Booking details to be confirmed</dd>
                 </div>
               </dl>
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <ButtonLink href="/workshops" variant="secondary">View details</ButtonLink>
                 <ButtonLink href="/contact" variant="text">Ask a question</ButtonLink>
               </div>
@@ -293,7 +293,7 @@ export default function Home() {
                 Ask a question, share a workshop inquiry, or take one small step toward understanding what kind of
                 support feels right.
               </p>
-              <ButtonLink href="/contact" className="mt-9">
+              <ButtonLink href="/contact" className="mt-8">
                 Contact Joanna
               </ButtonLink>
             </div>
@@ -303,7 +303,7 @@ export default function Home() {
               src="/photos/portraits/joanna-radek-17.webp"
               alt="Joanna Radek-Petersen smiling warmly."
               marker="Placeholder: clean original needed"
-              className="mx-auto max-w-[28rem]"
+              className="mx-auto max-w-[31rem]"
             />
           </Reveal>
         </div>
