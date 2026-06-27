@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import type { ContentStatus, ContentType, RichTextBlock } from "@/lib/cms/types";
 
-type ActionState = { ok: boolean; message: string; id?: string };
+export type ActionState = { ok: boolean; message: string; id?: string; slug?: string; status?: ContentStatus };
 
 async function requireUser() {
   const supabase = await createServerSupabaseClient();
@@ -26,8 +26,33 @@ function bodyFromText(text: string): RichTextBlock[] {
     .map((text) => ({ type: "paragraph", text }));
 }
 
+function slugify(value: string) {
+  return value
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .replace(/-{2,}/g, "-");
+}
+
+function publicContentPath(type: ContentType, slug: string) {
+  if (type === "page") return slug ? `/${slug}` : "/";
+  return `/${type}s/${slug}`;
+}
+
+function revalidateContentPaths(type: ContentType, slug: string) {
+  revalidatePath("/");
+  revalidatePath("/admin");
+  revalidatePath(`/admin/${type}s`);
+  if (slug) {
+    revalidatePath(publicContentPath(type, slug));
+    revalidatePath(`/admin/${type}s/${slug}`);
+  }
+}
+
 function contentPayload(formData: FormData) {
-  const slug = String(formData.get("slug") ?? "").replace(/^\/+/, "").replace(/\/+$/, "");
+  const rawSlug = String(formData.get("slug") ?? "").replace(/^\/+/, "").replace(/\/+$/, "");
   const title = String(formData.get("title") ?? "");
   const subtitle = String(formData.get("subtitle") ?? "");
   const excerpt = String(formData.get("excerpt") ?? subtitle);
@@ -37,7 +62,9 @@ function contentPayload(formData: FormData) {
   const heroImage = String(formData.get("heroImage") ?? "");
   const heroImageAlt = String(formData.get("heroImageAlt") ?? "");
   const metadata = JSON.parse(String(formData.get("metadata") || "{}")) as Record<string, unknown>;
-  const canonical = slug ? `/${slug}` : "/";
+  const isNewPlaceholderSlug = rawSlug === "" || rawSlug === `new-${type}`;
+  const slug = isNewPlaceholderSlug ? `${slugify(title) || type}-${Date.now().toString(36)}` : slugify(rawSlug);
+  const canonical = publicContentPath(type, slug);
 
   return {
     type,
@@ -74,31 +101,30 @@ export async function saveContentEntry(_previousState: ActionState, formData: Fo
   const { data, error } = await mutation;
   if (error) return { ok: false, message: error.message };
 
-  revalidatePath("/");
-  revalidatePath("/admin");
-  revalidatePath(payload.slug ? `/${payload.slug}` : "/");
+  revalidateContentPaths(payload.type, payload.slug);
 
-  return { ok: true, message: "Saved", id: data.id };
+  return { ok: true, message: "Saved", id: data.id, slug: payload.slug, status: payload.status };
 }
 
 export async function setContentStatus(id: string, status: ContentStatus): Promise<ActionState> {
   const { supabase, user } = await requireUser();
   if (!supabase || !user) return { ok: false, message: "Sign in to publish changes." };
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("content_entries")
     .update({
       status,
       published_at: status === "published" ? new Date().toISOString() : null,
       updated_by: user.id
     })
-    .eq("id", id);
+    .eq("id", id)
+    .select("id, slug, type, status")
+    .single();
 
   if (error) return { ok: false, message: error.message };
 
-  revalidatePath("/");
-  revalidatePath("/admin");
-  return { ok: true, message: status === "published" ? "Published" : "Updated" };
+  revalidateContentPaths(data.type, data.slug);
+  return { ok: true, message: status === "published" ? "Published" : "Updated", id: data.id, slug: data.slug, status: data.status };
 }
 
 export async function deleteContentEntry(id: string): Promise<ActionState> {

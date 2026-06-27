@@ -1,19 +1,35 @@
 "use client";
 
 import { useActionState, useEffect, useRef, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { Button, ButtonLink } from "@/components/system/Button";
 import { SelectField, TextArea, TextInput } from "@/components/system/FormControls";
-import { saveContentEntry, setContentStatus } from "@/lib/cms/actions";
+import { saveContentEntry, setContentStatus, type ActionState } from "@/lib/cms/actions";
 import type { CmsContent, ContentStatus } from "@/lib/cms/types";
 
 export function ContentEditor({ content }: { content: CmsContent }) {
+  const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
   const initialBody = content.body.map((block) => ("text" in block ? block.text : "")).join("\n\n");
   const [draft, setDraft] = useState({ title: content.title, subtitle: content.subtitle, body: initialBody });
   const [status, setStatus] = useState(content.status);
-  const [state, formAction, isSaving] = useActionState(saveContentEntry, { ok: true, message: "Saved" });
+  const [persisted, setPersisted] = useState({ id: content.id, slug: content.slug });
+  const [actionMessage, setActionMessage] = useState<ActionState>({ ok: true, message: "Saved" });
+  async function saveAndTrack(previousState: ActionState, formData: FormData) {
+    formData.set("id", persisted.id);
+    formData.set("slug", persisted.slug);
+    const result = await saveContentEntry(previousState, formData);
+    if (result.ok && result.id) {
+      setPersisted((current) => ({ id: result.id ?? current.id, slug: result.slug ?? current.slug }));
+      if (result.status) setStatus(result.status);
+    }
+    return result;
+  }
+
+  const [state, formAction, isSaving] = useActionState(saveAndTrack, { ok: true, message: "Saved" });
   const [isPending, startTransition] = useTransition();
-  const statusText = isSaving ? "Saving..." : state.ok ? "Saved" : `Error: ${state.message}`;
+  const latestState = isSaving ? { ok: true, message: "Saving..." } : actionMessage.message !== "Saved" || !actionMessage.ok ? actionMessage : state;
+  const statusText = latestState.ok ? latestState.message : `Error: ${latestState.message}`;
 
   useEffect(() => {
     const timeout = window.setTimeout(() => {
@@ -29,12 +45,35 @@ export function ContentEditor({ content }: { content: CmsContent }) {
     setDraft((current) => ({ ...current, [field]: value }));
   }
 
+  async function saveCurrentContent(nextStatus?: ContentStatus) {
+    if (!formRef.current) return { ok: false, message: "Editor form is not ready." } satisfies ActionState;
+
+    const formData = new FormData(formRef.current);
+    formData.set("id", persisted.id);
+    formData.set("slug", persisted.slug);
+    if (nextStatus) formData.set("status", nextStatus);
+
+    const result = await saveContentEntry({ ok: true, message: "Saved" }, formData);
+    setActionMessage(result);
+
+    if (result.ok && result.id) {
+      setPersisted((current) => ({ id: result.id ?? current.id, slug: result.slug ?? current.slug }));
+      if (result.status) setStatus(result.status);
+    }
+
+    return result;
+  }
+
+  function adminEditorPath(slug: string) {
+    return `/admin/${content.type}s/${slug}`;
+  }
+
   return (
     <section className="grid gap-6 lg:grid-cols-[1fr_20rem]">
       <form ref={formRef} action={formAction} className="grid gap-5 rounded-md border border-border bg-surface p-6" aria-label={`${content.title} editor`}>
-        <input type="hidden" name="id" value={content.id} />
+        <input type="hidden" name="id" value={persisted.id} />
         <input type="hidden" name="type" value={content.type} />
-        <input type="hidden" name="slug" value={content.slug} />
+        <input type="hidden" name="slug" value={persisted.slug} />
         <input type="hidden" name="excerpt" value={content.excerpt} />
         <input type="hidden" name="heroImage" value={content.heroImage ?? ""} />
         <input type="hidden" name="heroImageAlt" value={content.imageAlt ?? ""} />
@@ -53,8 +92,23 @@ export function ContentEditor({ content }: { content: CmsContent }) {
               isLoading={isPending}
               onClick={() => {
                 startTransition(async () => {
-                  const result = await setContentStatus(content.id, status === "published" ? "draft" : "published");
-                  if (result.ok) setStatus(status === "published" ? "draft" : "published");
+                  const nextStatus = status === "published" ? "draft" : "published";
+                  const saved: ActionState = persisted.id
+                    ? { ok: true, message: "Saved", id: persisted.id, slug: persisted.slug }
+                    : await saveCurrentContent("draft");
+                  if (!saved.ok || !saved.id) {
+                    setActionMessage({ ok: false, message: saved.message || "Save the article before publishing." });
+                    return;
+                  }
+
+                  const result = await setContentStatus(saved.id, nextStatus);
+                  setActionMessage(result);
+                  if (result.ok) {
+                    setPersisted((current) => ({ id: result.id ?? current.id, slug: result.slug ?? current.slug }));
+                    setStatus(result.status ?? nextStatus);
+                    if (!persisted.id && result.slug) router.replace(adminEditorPath(result.slug));
+                    router.refresh();
+                  }
                 });
               }}
             >
