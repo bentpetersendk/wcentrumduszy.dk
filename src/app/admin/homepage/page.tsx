@@ -2,6 +2,8 @@ import { AdminShell } from "@/components/admin/AdminShell";
 import { ContentEditor } from "@/components/admin/ContentEditor";
 import { getContentBySlug } from "@/lib/cms/queries";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminHomepagePage() {
   const homepageContent = await getContentBySlug({ slug: "", type: "page" });
 

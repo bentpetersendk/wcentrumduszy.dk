@@ -1,14 +1,11 @@
 import { notFound } from "next/navigation";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { ContentEditor } from "@/components/admin/ContentEditor";
-import { getContentBySlug, getContentList } from "@/lib/cms/queries";
+import { getContentBySlug } from "@/lib/cms/queries";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
-export async function generateStaticParams() {
-  const meditations = await getContentList({ type: "meditation" });
-  return meditations.map((item) => ({ slug: item.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export default async function AdminMeditationEditor({ params }: PageProps) {
   const { slug } = await params;

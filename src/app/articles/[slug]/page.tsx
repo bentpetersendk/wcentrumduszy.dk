@@ -2,13 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DetailPage } from "@/components/public/DetailPage";
 import { siteUrl } from "@/lib/cms/mapper";
-import { getContentBySlug, getPublishedSlugParams } from "@/lib/cms/queries";
+import { getContentBySlug } from "@/lib/cms/queries";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
-export function generateStaticParams() {
-  return getPublishedSlugParams("article");
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;

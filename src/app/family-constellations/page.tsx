@@ -5,6 +5,8 @@ import { RichTextRenderer } from "@/components/public/RichTextRenderer";
 import { getContentBySlug } from "@/lib/cms/queries";
 import { siteUrl } from "@/lib/cms/mapper";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   alternates: { canonical: `${siteUrl}/family-constellations` }
 };

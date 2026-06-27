@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { ListingPage } from "@/components/public/ListingPage";
 import { getPublishedList } from "@/lib/cms/queries";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Articles",
   description: "Reflective articles from W Centrum Duszy."

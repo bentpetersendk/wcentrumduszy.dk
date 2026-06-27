@@ -1,14 +1,11 @@
 import { notFound } from "next/navigation";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { ContentEditor } from "@/components/admin/ContentEditor";
-import { getContentBySlug, getContentList } from "@/lib/cms/queries";
+import { getContentBySlug } from "@/lib/cms/queries";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
-export async function generateStaticParams() {
-  const workshops = await getContentList({ type: "workshop" });
-  return workshops.map((item) => ({ slug: item.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export default async function AdminWorkshopEditor({ params }: PageProps) {
   const { slug } = await params;

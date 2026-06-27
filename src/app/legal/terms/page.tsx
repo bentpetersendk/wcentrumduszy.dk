@@ -4,6 +4,8 @@ import { PageHero } from "@/components/public/PageHero";
 import { RichTextRenderer } from "@/components/public/RichTextRenderer";
 import { getContentBySlug } from "@/lib/cms/queries";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Terms & Conditions"
 };

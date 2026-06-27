@@ -2,6 +2,8 @@ import { AdminShell } from "@/components/admin/AdminShell";
 import { StatusPill } from "@/components/admin/StatusPill";
 import { getDashboardData } from "@/lib/cms/queries";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboardPage() {
   const data = await getDashboardData();
   const stats = [

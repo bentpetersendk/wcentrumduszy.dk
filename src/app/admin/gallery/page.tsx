@@ -5,6 +5,8 @@ import { Button } from "@/components/system/Button";
 import { TextInput } from "@/components/system/FormControls";
 import Image from "next/image";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminGalleryPage() {
   const images = await getMediaAssets();
 

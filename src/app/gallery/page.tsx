@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { EditorialImage } from "@/components/system/EditorialImage";
 import { getMediaAssets } from "@/lib/cms/queries";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Gallery",
   description: "Portraits and visual moments from W Centrum Duszy."

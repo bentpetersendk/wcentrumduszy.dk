@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { getPublishedList } from "@/lib/cms/queries";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "FAQ",
   description: "Answers to common questions about W Centrum Duszy."

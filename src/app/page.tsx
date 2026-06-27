@@ -5,6 +5,8 @@ import { SystemCard } from "@/components/system/Card";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
 import { getContentBySlug, getPublishedList } from "@/lib/cms/queries";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const [home, workshops, meditations, articles] = await Promise.all([
     getContentBySlug({ slug: "", type: "page", status: "published" }),

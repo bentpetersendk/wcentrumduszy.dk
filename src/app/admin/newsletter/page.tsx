@@ -1,6 +1,8 @@
 import { AdminShell } from "@/components/admin/AdminShell";
 import { getNewsletterSubscribers } from "@/lib/cms/queries";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminNewsletterPage() {
   const subscribers = await getNewsletterSubscribers();
 

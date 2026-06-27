@@ -1,6 +1,8 @@
 import { AdminShell } from "@/components/admin/AdminShell";
 import { getContactMessages } from "@/lib/cms/queries";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminMessagesPage() {
   const messages = await getContactMessages();
 

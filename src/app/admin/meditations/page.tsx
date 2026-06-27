@@ -2,6 +2,8 @@ import { AdminList } from "@/components/admin/AdminList";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { getContentList } from "@/lib/cms/queries";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminMeditationsPage() {
   const meditations = await getContentList({ type: "meditation" });
   return (
