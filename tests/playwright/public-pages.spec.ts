@@ -52,13 +52,13 @@ test.describe("public page coverage", () => {
     await page.getByLabel("Topic").selectOption("General question");
     await page.getByLabel("Message").fill("A quiet first hello.");
     await page.getByRole("button", { name: "Send message" }).click();
-    await expect(page.getByRole("status")).toContainText("CMS foundation");
+    await expect(page.getByRole("status")).toContainText("Message sent.");
 
     await page.goto("/newsletter");
-    await page.getByLabel("Email address").fill("hello@example.com");
+    await page.getByLabel("Email address").fill(`playwright-${Date.now()}@example.com`);
     await page.getByLabel("I agree to receive the W Centrum Duszy newsletter.").check();
     await page.getByRole("button", { name: "Join the newsletter" }).click();
-    await expect(page.getByRole("status")).toContainText("Supabase");
+    await expect(page.getByRole("status")).toContainText("Subscribed.");
   });
 
   test("representative public pages pass automated accessibility checks", async ({ page }) => {

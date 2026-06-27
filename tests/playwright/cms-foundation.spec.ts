@@ -1,11 +1,14 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
-import { hasSupabaseEnv } from "./env";
+import { hasCmsE2EEnv, hasSupabaseEnv } from "./env";
 
 test.describe("CMS foundation", () => {
   test("admin dashboard and editor workflow render", async ({ page }) => {
-    test.skip(!hasSupabaseEnv, "Requires Supabase environment and seeded CMS rows.");
-    await page.goto("/admin");
+    test.skip(!hasCmsE2EEnv, "Requires production CMS credentials.");
+    await page.goto("/admin/login");
+    await page.getByLabel("Email").fill(process.env.CMS_E2E_EMAIL ?? "");
+    await page.getByLabel("Password").fill(process.env.CMS_E2E_PASSWORD ?? "");
+    await page.getByRole("button", { name: "Sign in" }).click();
     await expect(page.getByRole("heading", { name: "Dashboard" })).toBeVisible();
     await page.getByRole("link", { name: "Homepage" }).click();
     await expect(page.getByRole("heading", { name: "Homepage editor" })).toBeVisible();
