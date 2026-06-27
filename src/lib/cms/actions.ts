@@ -161,18 +161,16 @@ export async function subscribeNewsletter(_previousState: ActionState, formData:
   const supabase = await createServerSupabaseClient();
   if (!supabase) return { ok: false, message: "Newsletter storage is not configured yet." };
 
-  const { error } = await supabase.from("newsletter_subscribers").upsert(
-    {
-      email: String(formData.get("email") ?? ""),
-      language: "pl",
-      source_path: String(formData.get("sourcePath") ?? "/newsletter"),
-      consent_at: new Date().toISOString(),
-      unsubscribed_at: null
-    },
-    { onConflict: "email" }
-  );
+  const { error } = await supabase.from("newsletter_subscribers").insert({
+    email: String(formData.get("email") ?? ""),
+    language: "pl",
+    source_path: String(formData.get("sourcePath") ?? "/newsletter"),
+    consent_at: new Date().toISOString(),
+    unsubscribed_at: null
+  });
 
-  return error ? { ok: false, message: error.message } : { ok: true, message: "Subscribed." };
+  if (error && error.code !== "23505") return { ok: false, message: error.message };
+  return { ok: true, message: "Subscribed." };
 }
 
 export async function uploadMedia(_previousState: ActionState, formData: FormData): Promise<ActionState> {
