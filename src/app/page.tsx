@@ -4,6 +4,7 @@ import { Reveal } from "@/components/system/Reveal";
 import { SystemCard } from "@/components/system/Card";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
 import { getContentBySlug, getPublishedList } from "@/lib/cms/queries";
+import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -15,16 +16,7 @@ export default async function Home() {
     getPublishedList("article")
   ]);
 
-  if (!home) {
-    return (
-      <section className="mx-auto max-w-[760px] px-5 py-20 text-center sm:px-8">
-        <h1 className="text-h1 text-text">W Centrum Duszy</h1>
-        <p className="mt-5 text-body-large text-text-muted">
-          Connect Supabase and run the CMS seed migration to publish the homepage.
-        </p>
-      </section>
-    );
-  }
+  if (!home) notFound();
 
   const pathways = [
     ...workshops.map((item) => ({ ...item, href: `/workshops/${item.slug}`, label: "Workshop" })),
