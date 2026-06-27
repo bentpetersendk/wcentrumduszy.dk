@@ -1,9 +1,22 @@
 alter table public.admin_profiles enable row level security;
 alter table public.content_entries enable row level security;
 alter table public.media_assets enable row level security;
-alter table public.contact_messages enable row level security;
-alter table public.newsletter_subscribers enable row level security;
-alter table public.site_settings enable row level security;
+
+do $$
+begin
+  if to_regclass('public.contact_messages') is not null then
+    alter table public.contact_messages enable row level security;
+  end if;
+
+  if to_regclass('public.newsletter_subscribers') is not null then
+    alter table public.newsletter_subscribers enable row level security;
+  end if;
+
+  if to_regclass('public.site_settings') is not null then
+    alter table public.site_settings enable row level security;
+  end if;
+end;
+$$;
 
 create or replace function public.current_admin_role()
 returns text
@@ -58,7 +71,7 @@ begin
       using (true);
   end if;
 
-  if not exists (
+  if to_regclass('public.contact_messages') is not null and not exists (
     select 1
     from pg_policies
     where schemaname = 'public'
@@ -72,7 +85,7 @@ begin
       with check (true);
   end if;
 
-  if not exists (
+  if to_regclass('public.newsletter_subscribers') is not null and not exists (
     select 1
     from pg_policies
     where schemaname = 'public'
@@ -86,7 +99,7 @@ begin
       with check (true);
   end if;
 
-  if not exists (
+  if to_regclass('public.site_settings') is not null and not exists (
     select 1
     from pg_policies
     where schemaname = 'public'
@@ -128,19 +141,6 @@ drop policy if exists "Editors can manage media" on public.media_assets;
 drop policy if exists "Editors can insert media" on public.media_assets;
 drop policy if exists "Editors can update media" on public.media_assets;
 drop policy if exists "Editors can delete media" on public.media_assets;
-drop policy if exists "Editors can manage messages" on public.contact_messages;
-drop policy if exists "Editors can read messages" on public.contact_messages;
-drop policy if exists "Editors can update messages" on public.contact_messages;
-drop policy if exists "Editors can delete messages" on public.contact_messages;
-drop policy if exists "Editors can manage subscribers" on public.newsletter_subscribers;
-drop policy if exists "Editors can read subscribers" on public.newsletter_subscribers;
-drop policy if exists "Editors can update subscribers" on public.newsletter_subscribers;
-drop policy if exists "Editors can delete subscribers" on public.newsletter_subscribers;
-drop policy if exists "Editors can manage settings" on public.site_settings;
-drop policy if exists "Editors can read settings" on public.site_settings;
-drop policy if exists "Editors can update settings" on public.site_settings;
-drop policy if exists "Editors can insert settings" on public.site_settings;
-drop policy if exists "Editors can delete settings" on public.site_settings;
 drop policy if exists "Editors can manage public media files" on storage.objects;
 drop policy if exists "Editors can manage private media files" on storage.objects;
 drop policy if exists "Editors can read media files" on storage.objects;
@@ -211,68 +211,94 @@ create policy "Editors can delete media"
   to authenticated
   using (public.is_admin());
 
-create policy "Editors can read messages"
-  on public.contact_messages
-  for select
-  to authenticated
-  using (public.is_admin());
+do $$
+begin
+  if to_regclass('public.contact_messages') is not null then
+    drop policy if exists "Editors can manage messages" on public.contact_messages;
+    drop policy if exists "Editors can read messages" on public.contact_messages;
+    drop policy if exists "Editors can update messages" on public.contact_messages;
+    drop policy if exists "Editors can delete messages" on public.contact_messages;
 
-create policy "Editors can update messages"
-  on public.contact_messages
-  for update
-  to authenticated
-  using (public.is_admin())
-  with check (public.is_admin());
+    create policy "Editors can read messages"
+      on public.contact_messages
+      for select
+      to authenticated
+      using (public.is_admin());
 
-create policy "Editors can delete messages"
-  on public.contact_messages
-  for delete
-  to authenticated
-  using (public.is_admin());
+    create policy "Editors can update messages"
+      on public.contact_messages
+      for update
+      to authenticated
+      using (public.is_admin())
+      with check (public.is_admin());
 
-create policy "Editors can read subscribers"
-  on public.newsletter_subscribers
-  for select
-  to authenticated
-  using (public.is_admin());
+    create policy "Editors can delete messages"
+      on public.contact_messages
+      for delete
+      to authenticated
+      using (public.is_admin());
+  end if;
 
-create policy "Editors can update subscribers"
-  on public.newsletter_subscribers
-  for update
-  to authenticated
-  using (public.is_admin())
-  with check (public.is_admin());
+  if to_regclass('public.newsletter_subscribers') is not null then
+    drop policy if exists "Editors can manage subscribers" on public.newsletter_subscribers;
+    drop policy if exists "Editors can read subscribers" on public.newsletter_subscribers;
+    drop policy if exists "Editors can update subscribers" on public.newsletter_subscribers;
+    drop policy if exists "Editors can delete subscribers" on public.newsletter_subscribers;
 
-create policy "Editors can delete subscribers"
-  on public.newsletter_subscribers
-  for delete
-  to authenticated
-  using (public.is_admin());
+    create policy "Editors can read subscribers"
+      on public.newsletter_subscribers
+      for select
+      to authenticated
+      using (public.is_admin());
 
-create policy "Editors can read settings"
-  on public.site_settings
-  for select
-  to authenticated
-  using (public.is_admin());
+    create policy "Editors can update subscribers"
+      on public.newsletter_subscribers
+      for update
+      to authenticated
+      using (public.is_admin())
+      with check (public.is_admin());
 
-create policy "Editors can insert settings"
-  on public.site_settings
-  for insert
-  to authenticated
-  with check (public.is_admin());
+    create policy "Editors can delete subscribers"
+      on public.newsletter_subscribers
+      for delete
+      to authenticated
+      using (public.is_admin());
+  end if;
 
-create policy "Editors can update settings"
-  on public.site_settings
-  for update
-  to authenticated
-  using (public.is_admin())
-  with check (public.is_admin());
+  if to_regclass('public.site_settings') is not null then
+    drop policy if exists "Editors can manage settings" on public.site_settings;
+    drop policy if exists "Editors can read settings" on public.site_settings;
+    drop policy if exists "Editors can update settings" on public.site_settings;
+    drop policy if exists "Editors can insert settings" on public.site_settings;
+    drop policy if exists "Editors can delete settings" on public.site_settings;
 
-create policy "Editors can delete settings"
-  on public.site_settings
-  for delete
-  to authenticated
-  using (public.is_admin());
+    create policy "Editors can read settings"
+      on public.site_settings
+      for select
+      to authenticated
+      using (public.is_admin());
+
+    create policy "Editors can insert settings"
+      on public.site_settings
+      for insert
+      to authenticated
+      with check (public.is_admin());
+
+    create policy "Editors can update settings"
+      on public.site_settings
+      for update
+      to authenticated
+      using (public.is_admin())
+      with check (public.is_admin());
+
+    create policy "Editors can delete settings"
+      on public.site_settings
+      for delete
+      to authenticated
+      using (public.is_admin());
+  end if;
+end;
+$$;
 
 create policy "Editors can read media files"
   on storage.objects
