@@ -42,4 +42,8 @@ jobs:
           TEMP_OWNER_EMAIL: ${{ inputs.email }}
           TEMP_OWNER_PASSWORD: ${{ inputs.temp_password }}
           TEMP_OWNER_DISPLAY_NAME: Bent Petersen
-        run: node scripts/bootstrap-temp-owner.mjs
+        run: |
+          set -a
+          source .vercel/.env.production.local
+          set +a
+          node scripts/bootstrap-temp-owner.mjs
