@@ -1,0 +1,45 @@
+name: Bootstrap Temporary CMS Owner
+
+on:
+  workflow_dispatch:
+    inputs:
+      email:
+        description: Approved temporary owner email
+        required: true
+        type: string
+      temp_password:
+        description: Strong temporary password for the approved owner
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: team_Fomc0dgjABqvZL14xVgvr2KB
+      VERCEL_PROJECT_ID: prj_MyhjLblmYaVRZD4dyxaQZqUGEz6m
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Pull Vercel production environment
+        run: npx vercel pull --yes --environment=production --token="${{ secrets.VERCEL_TOKEN }}"
+
+      - name: Bootstrap approved temporary owner
+        env:
+          TEMP_OWNER_EMAIL: ${{ inputs.email }}
+          TEMP_OWNER_PASSWORD: ${{ inputs.temp_password }}
+          TEMP_OWNER_DISPLAY_NAME: Bent Petersen
+        run: node scripts/bootstrap-temp-owner.mjs
