@@ -10,6 +10,7 @@ export function NewsletterForm() {
 
   return (
     <form
+      id="newsletter-form"
       className="grid gap-5 rounded-md border border-border bg-surface p-6 sm:p-8"
       aria-label="Newsletter signup"
       action={formAction}

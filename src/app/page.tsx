@@ -4,9 +4,15 @@ import { Reveal } from "@/components/system/Reveal";
 import { SystemCard } from "@/components/system/Card";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
 import { getContentBySlug, getPublishedList } from "@/lib/cms/queries";
+import { metadataFromContent } from "@/lib/cms/seo";
 import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata() {
+  const home = await getContentBySlug({ slug: "", type: "page", status: "published" });
+  return home ? metadataFromContent(home) : {};
+}
 
 export default async function Home() {
   const [home, workshops, meditations, articles] = await Promise.all([
@@ -17,6 +23,19 @@ export default async function Home() {
   ]);
 
   if (!home) notFound();
+
+  const heroPrimaryLabel = typeof home.metadata.heroPrimaryLabel === "string" ? home.metadata.heroPrimaryLabel : "Explore workshops";
+  const heroPrimaryHref = typeof home.metadata.heroPrimaryHref === "string" ? home.metadata.heroPrimaryHref : "/workshops";
+  const heroSecondaryLabel = typeof home.metadata.heroSecondaryLabel === "string" ? home.metadata.heroSecondaryLabel : "Read about Joanna";
+  const heroSecondaryHref = typeof home.metadata.heroSecondaryHref === "string" ? home.metadata.heroSecondaryHref : "/about";
+  const trustHeading = typeof home.metadata.trustHeading === "string" ? home.metadata.trustHeading : "You do not need to become someone else.";
+  const trustText = typeof home.metadata.trustText === "string" ? home.metadata.trustText : home.excerpt;
+  const trustCtaLabel = typeof home.metadata.trustCtaLabel === "string" ? home.metadata.trustCtaLabel : "How Joanna works";
+  const trustCtaHref = typeof home.metadata.trustCtaHref === "string" ? home.metadata.trustCtaHref : "/about";
+  const pathwaysHeading = typeof home.metadata.pathwaysHeading === "string" ? home.metadata.pathwaysHeading : "Ways to begin gently.";
+  const pathwaysText = typeof home.metadata.pathwaysText === "string" ? home.metadata.pathwaysText : "The newest published workshops, meditations, and articles from the CMS.";
+  const newsletterHeading = typeof home.metadata.newsletterHeading === "string" ? home.metadata.newsletterHeading : "Stay close without deciding today.";
+  const newsletterText = typeof home.metadata.newsletterText === "string" ? home.metadata.newsletterText : "Receive quiet notes, new articles, meditations, and workshop updates from W Centrum Duszy.";
 
   const pathways = [
     ...workshops.map((item) => ({ ...item, href: `/workshops/${item.slug}`, label: "Workshop" })),
@@ -31,8 +50,8 @@ export default async function Home() {
           <h1 className="text-display text-text">{home.subtitle || home.title}</h1>
           <p className="mt-5 max-w-xl text-body-large text-text-muted sm:mt-7">{home.excerpt}</p>
           <div className="mt-7 flex flex-col gap-3 sm:mt-10 sm:flex-row">
-            <ButtonLink href="/workshops" className="w-full sm:w-auto">Explore workshops</ButtonLink>
-            <ButtonLink href="/about" variant="secondary" className="w-full sm:w-auto">Read about Joanna</ButtonLink>
+            <ButtonLink href={heroPrimaryHref} className="w-full sm:w-auto">{heroPrimaryLabel}</ButtonLink>
+            <ButtonLink href={heroSecondaryHref} variant="secondary" className="w-full sm:w-auto">{heroSecondaryLabel}</ButtonLink>
           </div>
         </div>
 
@@ -47,11 +66,9 @@ export default async function Home() {
         <Reveal>
           <div className="mx-auto max-w-[760px] text-center">
             <div className="mx-auto mb-8 h-px w-24 bg-border" />
-            <h2 id="trust-heading" className="text-h2 text-text">You do not need to become someone else.</h2>
-            <p className="mt-6 text-body-large text-text-muted">
-              This is a grounded space to pause, listen, and explore patterns that may still influence your life, relationships, and choices.
-            </p>
-            <ButtonLink href="/about" variant="text" className="mt-8">How Joanna works</ButtonLink>
+            <h2 id="trust-heading" className="text-h2 text-text">{trustHeading}</h2>
+            <p className="mt-6 text-body-large text-text-muted">{trustText}</p>
+            <ButtonLink href={trustCtaHref} variant="text" className="mt-8">{trustCtaLabel}</ButtonLink>
           </div>
         </Reveal>
       </section>
@@ -59,10 +76,8 @@ export default async function Home() {
       <section className="mx-auto max-w-[1200px] px-5 py-12 sm:px-8 sm:py-16 lg:py-24" aria-labelledby="offers-heading">
         <Reveal>
           <div className="mb-10 max-w-2xl">
-            <h2 id="offers-heading" className="text-h2 text-text">Ways to begin gently.</h2>
-            <p className="mt-5 text-body text-text-muted">
-              The newest published workshops, meditations, and articles from the CMS.
-            </p>
+            <h2 id="offers-heading" className="text-h2 text-text">{pathwaysHeading}</h2>
+            <p className="mt-5 text-body text-text-muted">{pathwaysText}</p>
           </div>
         </Reveal>
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
@@ -109,10 +124,8 @@ export default async function Home() {
             <div className="grid gap-8 lg:grid-cols-[0.9fr_1fr] lg:items-center">
               <div>
                 <p className="text-caption uppercase text-text-muted">Newsletter</p>
-                <h2 id="newsletter-heading" className="mt-3 text-h2 text-text">Stay close without deciding today.</h2>
-                <p className="mt-5 text-body text-text-muted">
-                  Receive quiet notes, new articles, meditations, and workshop updates from W Centrum Duszy.
-                </p>
+                <h2 id="newsletter-heading" className="mt-3 text-h2 text-text">{newsletterHeading}</h2>
+                <p className="mt-5 text-body text-text-muted">{newsletterText}</p>
               </div>
               <NewsletterForm />
             </div>

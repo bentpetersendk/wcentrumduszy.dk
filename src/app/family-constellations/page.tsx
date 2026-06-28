@@ -1,15 +1,16 @@
-import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Breadcrumbs } from "@/components/public/Breadcrumbs";
 import { PageHero } from "@/components/public/PageHero";
 import { RichTextRenderer } from "@/components/public/RichTextRenderer";
 import { getContentBySlug } from "@/lib/cms/queries";
-import { siteUrl } from "@/lib/cms/mapper";
+import { metadataFromContent } from "@/lib/cms/seo";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  alternates: { canonical: `${siteUrl}/family-constellations` }
-};
+export async function generateMetadata() {
+  const content = await getContentBySlug({ slug: "family-constellations", type: "page", status: "published" });
+  return content ? metadataFromContent(content) : {};
+}
 
 export default async function FamilyConstellationsPage() {
   const content = await getContentBySlug({ slug: "family-constellations", type: "page", status: "published" });
@@ -17,6 +18,7 @@ export default async function FamilyConstellationsPage() {
 
   return (
     <div>
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: content.title }]} />
       <PageHero content={content} />
       <section className="mx-auto max-w-3xl px-5 pb-16 sm:px-8 lg:pb-24">
         <RichTextRenderer blocks={content.body} />

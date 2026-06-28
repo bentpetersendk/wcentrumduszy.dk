@@ -7,7 +7,6 @@ const publicRoutes = [
   "/family-constellations",
   "/workshops",
   "/workshops/returning-to-yourself",
-  "/courses",
   "/meditations",
   "/meditations/five-minute-pause",
   "/articles",

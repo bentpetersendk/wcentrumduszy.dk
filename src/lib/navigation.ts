@@ -15,7 +15,6 @@ export const primaryNavigation: NavigationItem[] = [
 
 export const footerNavigation: NavigationItem[] = [
   ...primaryNavigation,
-  { label: "Courses", href: "/courses" },
   { label: "FAQ", href: "/faq" },
   { label: "Newsletter", href: "/newsletter" }
 ];

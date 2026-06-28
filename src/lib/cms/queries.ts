@@ -68,6 +68,7 @@ export async function getMediaAssets() {
   if (error || !data) return [];
 
   return data.map((asset): CmsMediaAsset => {
+    const isLocalAsset = asset.path.startsWith("photos/") || asset.path.startsWith("/photos/");
     const { data: publicUrl } = supabase.storage.from(asset.bucket).getPublicUrl(asset.path);
     return {
       id: asset.id,
@@ -78,7 +79,7 @@ export async function getMediaAssets() {
       folder: asset.folder ?? undefined,
       sortOrder: asset.sort_order ?? 0,
       createdAt: asset.created_at,
-      publicUrl: publicUrl.publicUrl
+      publicUrl: isLocalAsset ? `/${asset.path.replace(/^\/+/, "")}` : publicUrl.publicUrl
     };
   });
 }

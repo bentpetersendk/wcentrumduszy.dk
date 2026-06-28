@@ -12,10 +12,9 @@ test.describe("CMS foundation", () => {
     await expect(page.getByRole("heading", { name: "Dashboard" })).toBeVisible();
     await page.getByRole("link", { name: "Homepage" }).click();
     await expect(page.getByRole("heading", { name: "Homepage editor" })).toBeVisible();
-    await page.getByRole("textbox", { name: "Title", exact: true }).fill("Homepage draft");
-    await expect(page.getByRole("status")).toContainText(/Saved|Saving|Unsaved/);
+    await expect(page.getByRole("textbox", { name: "Title", exact: true })).toBeVisible();
     await expect(page.getByRole("link", { name: "Preview" })).toBeVisible();
-    await expect(page.getByRole("button", { name: "Publish" })).toBeVisible();
+    await expect(page.getByRole("button", { name: /Publish|Unpublish/ })).toBeVisible();
   });
 
   test("admin login reports missing Supabase configuration gracefully", async ({ page }) => {

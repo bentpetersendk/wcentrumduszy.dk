@@ -1,23 +1,20 @@
-import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { ListingPage } from "@/components/public/ListingPage";
-import { getPublishedList } from "@/lib/cms/queries";
+import { getContentBySlug, getPublishedList } from "@/lib/cms/queries";
+import { metadataFromContent } from "@/lib/cms/seo";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Articles",
-  description: "Reflective articles from W Centrum Duszy."
-};
+export async function generateMetadata() {
+  const overview = await getContentBySlug({ slug: "articles", type: "page", status: "published" });
+  return overview ? metadataFromContent(overview) : {};
+}
 
 export default async function ArticlesPage() {
-  const articles = await getPublishedList("article");
-  return (
-    <ListingPage
-      title="Articles"
-      subtitle="Thoughtful notes on presence, patterns, calm, and personal growth."
-      items={articles}
-      basePath="/articles"
-      cta="Read article"
-    />
-  );
+  const [overview, articles] = await Promise.all([
+    getContentBySlug({ slug: "articles", type: "page", status: "published" }),
+    getPublishedList("article")
+  ]);
+  if (!overview) notFound();
+  return <ListingPage overview={overview} items={articles} basePath="/articles" cta="Read article" />;
 }

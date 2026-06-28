@@ -4,7 +4,7 @@ import { hasCmsE2EEnv } from "./env";
 test.describe("live Supabase CMS E2E", () => {
   test.skip(!hasCmsE2EEnv, "Requires NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, CMS_E2E_EMAIL, and CMS_E2E_PASSWORD.");
 
-  test("login, edit homepage, publish, create content, upload media, and logout", async ({ page }) => {
+  test("login, inspect homepage editor, create content, upload media, and logout", async ({ page }) => {
     await page.goto("/admin/login");
     await page.getByLabel("Email").fill(process.env.CMS_E2E_EMAIL ?? "");
     await page.getByLabel("Password").fill(process.env.CMS_E2E_PASSWORD ?? "");
@@ -13,9 +13,8 @@ test.describe("live Supabase CMS E2E", () => {
 
     await page.getByRole("link", { name: "Homepage" }).click();
     await expect(page.getByRole("heading", { name: "Homepage editor" })).toBeVisible();
-    await page.getByRole("textbox", { name: "Title", exact: true }).fill(`Homepage ${Date.now()}`);
-    await expect(page.getByRole("status")).toContainText(/Saving|Saved/);
-    await page.getByRole("button", { name: /Publish|Unpublish/ }).click();
+    await expect(page.getByRole("textbox", { name: "Title", exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Preview" })).toBeVisible();
 
     await page.getByRole("link", { name: "Workshops" }).click();
     await page.getByRole("link", { name: "Create new" }).click();

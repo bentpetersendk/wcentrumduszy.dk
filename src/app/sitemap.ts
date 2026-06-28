@@ -6,29 +6,22 @@ export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const content = await getContentList({ status: "published" });
-  const contentRoutes = content.map((item) => ({
-    url: `${siteUrl}${item.seo.canonical}`,
-    lastModified: item.updatedAt,
-    changeFrequency: "monthly" as const,
-    priority: item.type === "page" ? 0.8 : 0.7
-  }));
+  const routes = new Map<string, MetadataRoute.Sitemap[number]>();
 
-  return [
-    {
-      url: siteUrl,
+  routes.set(siteUrl, {
+    url: siteUrl,
+    changeFrequency: "monthly",
+    priority: 1
+  });
+
+  for (const item of content) {
+    routes.set(`${siteUrl}${item.seo.canonical}`, {
+      url: `${siteUrl}${item.seo.canonical}`,
+      lastModified: item.updatedAt,
       changeFrequency: "monthly",
-      priority: 1
-    },
-    ...contentRoutes,
-    {
-      url: `${siteUrl}/gallery`,
-      changeFrequency: "monthly",
-      priority: 0.7
-    },
-    {
-      url: `${siteUrl}/faq`,
-      changeFrequency: "monthly",
-      priority: 0.6
-    }
-  ];
+      priority: item.type === "page" ? 0.8 : 0.7
+    });
+  }
+
+  return [...routes.values()];
 }

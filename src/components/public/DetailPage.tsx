@@ -1,9 +1,11 @@
+import { Breadcrumbs } from "@/components/public/Breadcrumbs";
 import { PageHero } from "@/components/public/PageHero";
+import { RelatedContent } from "@/components/public/RelatedContent";
 import { RichTextRenderer } from "@/components/public/RichTextRenderer";
 import { ButtonLink } from "@/components/system/Button";
 import type { CmsContent } from "@/lib/cms/types";
 
-export function DetailPage({ content }: { content: CmsContent }) {
+export function DetailPage({ content, related = [] }: { content: CmsContent; related?: CmsContent[] }) {
   const facts = [
     ["Format", content.metadata.format],
     ["Theme", content.metadata.theme],
@@ -22,6 +24,17 @@ export function DetailPage({ content }: { content: CmsContent }) {
 
   return (
     <div>
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          content.type === "workshop"
+            ? { label: "Workshops", href: "/workshops" }
+            : content.type === "meditation"
+              ? { label: "Meditations", href: "/meditations" }
+              : { label: "Articles", href: "/articles" },
+          { label: content.title }
+        ]}
+      />
       <PageHero content={content} />
       <section className="mx-auto grid max-w-[1100px] gap-10 px-5 pb-16 sm:px-8 lg:grid-cols-[1fr_18rem] lg:pb-24">
         <article className="max-w-3xl">
@@ -55,6 +68,7 @@ export function DetailPage({ content }: { content: CmsContent }) {
           </ButtonLink>
         </aside>
       </section>
+      <RelatedContent title="You may also want to continue here" items={related} />
     </div>
   );
 }

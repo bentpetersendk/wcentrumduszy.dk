@@ -1,22 +1,29 @@
-import type { Metadata } from "next";
-import { getPublishedList } from "@/lib/cms/queries";
+import { notFound } from "next/navigation";
+import { Breadcrumbs } from "@/components/public/Breadcrumbs";
+import { PageHero } from "@/components/public/PageHero";
+import { RichTextRenderer } from "@/components/public/RichTextRenderer";
+import { getContentBySlug, getPublishedList } from "@/lib/cms/queries";
+import { metadataFromContent } from "@/lib/cms/seo";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "FAQ",
-  description: "Answers to common questions about W Centrum Duszy."
-};
+export async function generateMetadata() {
+  const content = await getContentBySlug({ slug: "faq", type: "page", status: "published" });
+  return content ? metadataFromContent(content) : {};
+}
 
 export default async function FaqPage() {
-  const faqItems = await getPublishedList("faq");
+  const [content, faqItems] = await Promise.all([
+    getContentBySlug({ slug: "faq", type: "page", status: "published" }),
+    getPublishedList("faq")
+  ]);
+  if (!content) notFound();
   return (
     <div>
-      <section className="mx-auto max-w-[900px] px-5 py-12 text-center sm:px-8 sm:py-16 lg:py-24">
-        <h1 className="text-h1 text-text">FAQ</h1>
-        <p className="mx-auto mt-5 max-w-2xl text-body-large text-text-muted">
-          Short answers for people beginning gently.
-        </p>
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: content.title }]} />
+      <PageHero content={content} />
+      <section className="mx-auto max-w-3xl px-5 pb-12 sm:px-8 lg:pb-16">
+        <RichTextRenderer blocks={content.body} />
       </section>
       <section className="mx-auto max-w-[860px] px-5 pb-16 sm:px-8 lg:pb-24">
         <div className="divide-y divide-border rounded-md border border-border bg-surface">
